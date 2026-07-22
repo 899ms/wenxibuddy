@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端 UI 术语速查手册</title>
+<style>
+/* ===== CSS Variables ===== */
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #1f2b47;
+  --bg-card-hover: #253352;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6a6a80;
+  --accent: #e94560;
+  --accent-light: #ff6b81;
+  --accent-glow: rgba(233,69,96,0.15);
+  --border: #2a3a5c;
+  --border-light: #334466;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --info: #3498db;
+  --demo-bg: rgba(0,0,0,0.12);
+  --demo-border: #3a4a6c;
+  --radius: 8px;
+  --radius-sm: 4px;
+  --radius-lg: 12px;
+  --nav-bg: rgba(22,33,62,0.92);
+  --text-heading: #fff;
+  --header-gradient: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+  --card-shadow: none;
+}
+/* ===== Light Theme Variables ===== */
+[data-theme="light"] {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #e8ecf1;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f3f6;
+  --text-primary: #2c3e50;
+  --text-secondary: #5a6c7d;
+  --text-muted: #94a3b8;
+  --accent: #e94560;
+  --accent-light: #d63851;
+  --accent-glow: rgba(233,69,96,0.08);
+  --border: #dce3ea;
+  --border-light: #e8ecf1;
+  --demo-bg: rgba(0,0,0,0.03);
+  --demo-border: #d0d7de;
+  --nav-bg: rgba(255,255,255,0.94);
+  --text-heading: #2c3e50;
+  --header-gradient: linear-gradient(135deg, #e8ecf1, #f5f7fa);
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* ===== Light Theme Element Overrides ===== */
+[data-theme="light"] .nav {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+[data-theme="light"] .header {
+  background: var(--header-gradient);
+}
+[data-theme="light"] .term-card {
+  box-shadow: var(--card-shadow);
+}
+[data-theme="light"] .d-navbar .logo,
+[data-theme="light"] .d-calendar .cal-header,
+[data-theme="light"] .d-confirm-dialog .cf-title,
+[data-theme="light"] .d-result-d .res-title,
+[data-theme="light"] .d-accordion .ahd,
+[data-theme="light"] .d-collapse .cp-hd,
+[data-theme="light"] .d-modal-box .mhd {
+  color: #2c3e50;
+}
+[data-theme="light"] .nav a:hover,
+[data-theme="light"] .d-dropdown .dd-item:hover,
+[data-theme="light"] .d-hamburger-menu div:hover,
+[data-theme="light"] .d-inputnum button:hover,
+[data-theme="light"] .d-flex-ctrl button:hover,
+[data-theme="light"] .d-list-d .li.selected,
+[data-theme="light"] .d-table tr.row-active td {
+  color: #2c3e50;
+}
+[data-theme="light"] .btn-ghost:active {
+  border-color: #2c3e50;
+  color: #2c3e50;
+}
+[data-theme="light"] .d-tooltip-w .ttip {
+  background: #2c3e50;
+  color: #fff;
+}
+
+
+
+/* ===== Reset ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC",sans-serif;
+  background:var(--bg-primary);color:var(--text-primary);line-height:1.6;min-height:100vh;padding-bottom:80px;
+  transition:background .3s,color .3s
+}
+
+/* ===== Header ===== */
+.header{text-align:center;padding:64px 20px 48px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-primary));position:relative;overflow:hidden}
+.header::before{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 30% 50%,var(--accent-glow) 0%,transparent 50%),
+             radial-gradient(circle at 70% 50%,rgba(52,152,219,0.08) 0%,transparent 50%);
+  animation:headerGlow 8s ease-in-out infinite
+}
+@keyframes headerGlow{0%,100%{transform:translate(0,0)}50%{transform:translate(2%,1%)}}
+.header h1{font-size:2.6rem;font-weight:800;color:var(--text-heading);position:relative;z-index:1;letter-spacing:-0.02em}
+.header h1 span{color:var(--accent)}
+.header .subtitle{margin-top:12px;font-size:1.05rem;color:var(--text-secondary);position:relative;z-index:1;letter-spacing:0.02em}
+
+/* ===== Sticky Nav ===== */
+.nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;padding:8px 16px}
+.nav a{color:var(--text-secondary);text-decoration:none;padding:8px 16px;border-radius:20px;font-size:.875rem;font-weight:500;transition:all .2s;white-space:nowrap}
+.nav a:hover{color:#fff;background:var(--bg-card)}
+.nav a.active{color:#fff;background:var(--accent)}
+
+/* ===== Container ===== */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ===== Section ===== */
+.section{margin-top:56px;scroll-margin-top:72px}
+.section-title{display:flex;align-items:center;gap:12px;font-size:1.4rem;font-weight:700;color:var(--text-heading);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--border);position:relative}
+.section-title::after{content:'';position:absolute;bottom:-2px;left:0;width:60px;height:2px;background:var(--accent)}
+.section-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);font-size:1.1rem;background:var(--accent-glow)}
+
+/* ===== Term Card — Base ===== */
+.term-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:16px;transition:border-color .2s;overflow:hidden
+}
+.term-card:hover{border-color:var(--accent);background:var(--bg-card-hover)}
+
+/* -- Info area (shared) -- */
+.term-info{
+  display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;
+  position:relative
+}
+.term-name{
+  font-weight:700;font-size:.95rem;color:var(--text-heading);white-space:nowrap
+}
+.term-name .en{color:var(--accent-light);font-weight:600;font-size:.75rem;margin-left:6px;opacity:.85}
+.term-info .info-icon{
+  width:18px;height:18px;border-radius:50%;border:1px solid var(--border-light);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:.65rem;color:var(--text-muted);flex-shrink:0;transition:all .2s
+}
+.term-info:hover .info-icon{border-color:var(--accent);color:var(--accent-light);background:var(--accent-glow)}
+
+/* -- Demo area (shared) -- */
+.term-demo{
+  position:relative;
+  border:1.5px dashed var(--demo-border);
+  border-radius:var(--radius-sm);
+  background:var(--demo-bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s;
+}
+.term-demo::after{
+  content:'点击交互';position:absolute;top:4px;right:8px;
+  font-size:.55rem;color:var(--text-muted);opacity:0;transition:opacity .2s;pointer-events:none
+}
+.term-demo:hover{border-color:var(--accent-light)}
+.term-demo:hover::after{opacity:.6}
+.term-demo[data-interactive="false"]{cursor:default}
+.term-demo[data-interactive="false"]::after{display:none}
+.term-demo[data-interactive="false"]:hover{border-color:var(--demo-border)}
+
+/* ===== Layout Tier: Small (50/50) ===== */
+.term--small{display:flex;flex-direction:row}
+.term--small .term-info{
+  flex:0 0 50%;padding:14px 16px;border-right:1px solid var(--border)
+}
+.term--small .term-demo{
+  flex:0 0 50%;padding:12px;min-height:64px;cursor:pointer
+}
+
+/* ===== Layout Tier: Medium (40/60) ===== */
+.term--medium{display:flex;flex-direction:row}
+.term--medium .term-info{
+  flex:0 0 40%;padding:14px 16px;border-right:1px solid var(--border)
+}
+.term--medium .term-demo{
+  flex:0 0 60%;padding:14px;min-height:70px;cursor:pointer
+}
+
+/* ===== Layout Tier: Large (stacked) ===== */
+.term--large{display:flex;flex-direction:column}
+.term--large .term-info{
+  padding:10px 16px;border-bottom:1px solid var(--border);
+  gap:10px
+}
+.term--large .term-info .term-name{font-size:.88rem}
+.term--large .term-info .term-desc-inline{
+  font-size:.72rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1
+}
+.term--large .term-demo{
+  padding:16px;min-height:180px;cursor:pointer
+}
+
+/* ===== Global Popover (definition) ===== */
+.def-popover{
+  position:fixed;z-index:200;max-width:340px;
+  background:var(--bg-secondary);border:1px solid var(--accent);
+  border-radius:var(--radius);padding:14px 16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  font-size:.8rem;color:var(--text-secondary);line-height:1.5;
+  opacity:0;pointer-events:none;transition:opacity .15s
+}
+.def-popover.show{opacity:1;pointer-events:auto}
+.def-popover .pop-title{font-weight:700;color:var(--text-heading);margin-bottom:4px;font-size:.88rem}
+.def-popover .pop-close{position:absolute;top:6px;right:10px;cursor:pointer;color:var(--text-muted);font-size:.9rem}
+
+/* ===== Demo internal styles ===== */
+.demo-box{width:100%}
+
+/* --- Nav demos --- */
+.d-breadcrumb{display:flex;gap:6px;font-size:.75rem;color:var(--text-muted);align-items:center}
+.d-breadcrumb .sep{color:var(--border-light)}
+.d-breadcrumb .current{color:var(--accent-light)}
+
+.d-navbar{display:flex;gap:14px;align-items:center;padding:8px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm)}
+.d-navbar .logo{font-weight:700;font-size:.78rem;color:#fff}
+.d-navbar .links{display:flex;gap:10px}
+.d-navbar .links span{padding:4px 8px;font-size:.68rem;color:var(--text-secondary);border-radius:4px;cursor:pointer;transition:all .15s}
+.d-navbar .links span.active{color:#fff;background:var(--accent)}
+
+.d-sidebar{display:flex;gap:0;border-radius:var(--radius-sm);overflow:hidden;width:100%}
+.d-sidebar .sb{width:56px;background:var(--bg-secondary);padding:10px 6px;display:flex;flex-direction:column;gap:8px}
+.d-sidebar .sb-item{height:8px;background:var(--border);border-radius:2px;cursor:pointer;transition:.15s}
+.d-sidebar .sb-item.active{background:var(--accent)}
+.d-sidebar .main{flex:1;background:rgba(0,0,0,0.18);padding:10px;display:flex;flex-direction:column;gap:6px}
+.d-sidebar .main-line{height:4px;background:var(--border);border-radius:1px}
+
+.d-tabs{}
+.d-tabs .tab-head{display:flex;gap:0;margin-bottom:0}
+.d-tabs .tab-btn{padding:6px 14px;font-size:.68rem;background:transparent;color:var(--text-muted);border:none;border-bottom:2px solid transparent;cursor:pointer;transition:.15s}
+.d-tabs .tab-btn.active{color:var(--accent-light);border-bottom-color:var(--accent)}
+.d-tabs .tab-body{padding:14px;background:rgba(0,0,0,0.18);border-radius:0 0 var(--radius-sm) var(--radius-sm);font-size:.7rem;color:var(--text-secondary);min-height:80px}
+
+.d-pagination{display:flex;gap:4px;align-items:center;justify-content:center}
+.d-pagination .pg{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.68rem;background:rgba(0,0,0,0.2);color:var(--text-muted);cursor:pointer;transition:.15s}
+.d-pagination .pg.active{background:var(--accent);color:#fff}
+
+.d-anchor{display:flex;flex-direction:column;gap:4px}
+.d-anchor span{font-size:.68rem;color:var(--text-muted);padding-left:12px;border-left:2px solid var(--border);cursor:default}
+
+.d-dropdown{position:relative;display:inline-block}
+.d-dropdown .dd-btn{padding:6px 14px;font-size:.72rem;background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:6px}
+.d-dropdown .dd-arrow{font-size:.55rem;transition:.2s}
+.d-dropdown.open .dd-arrow{transform:rotate(180deg)}
+.d-dropdown .dd-menu{display:none;position:absolute;top:100%;left:0;margin-top:4px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);min-width:120px;z-index:10;overflow:hidden}
+.d-dropdown.open .dd-menu{display:block}
+.d-dropdown .dd-item{padding:7px 14px;font-size:.65rem;color:var(--text-secondary);cursor:pointer;transition:.15s}
+.d-dropdown .dd-item:hover{background:var(--accent-glow);color:#fff}
+
+.d-hamburger{display:flex;flex-direction:column;gap:5px;padding:8px;cursor:pointer;width:100%}
+.d-hamburger span{display:block;width:22px;height:2.5px;background:var(--text-primary);border-radius:1px;transition:.2s}
+.d-hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.d-hamburger.open span:nth-child(2){opacity:0}
+.d-hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.d-hamburger-menu{display:none;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;margin-top:8px}
+.d-hamburger-menu.show{display:block}
+.d-hamburger-menu div{padding:6px 10px;font-size:.65rem;color:var(--text-secondary);cursor:pointer;border-radius:3px}
+.d-hamburger-menu div:hover{background:var(--accent-glow);color:#fff}
+
+.d-footer-nav{display:flex;gap:16px;font-size:.65rem;color:var(--text-muted)}
+.d-footer-nav span{padding:2px 6px;cursor:pointer;border-radius:2px;transition:.15s}
+.d-footer-nav span.active{color:var(--accent-light)}
+
+.d-stepper{display:flex;align-items:center;gap:0;justify-content:center}
+.d-stepper .step{display:flex;align-items:center}
+.d-stepper .step-num{width:22px;height:22px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.58rem;color:#fff;cursor:pointer;transition:.15s}
+.d-stepper .step-num.done{background:var(--success)}
+.d-stepper .step-num.current{background:var(--accent)}
+.d-stepper .step-line{width:20px;height:1.5px;background:var(--border);margin:0 3px}
+
+/* --- Form demos --- */
+.d-input{width:100%;padding:8px 12px;font-size:.75rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);outline:none;transition:.15s}
+.d-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+
+.d-textarea{width:100%;padding:8px 12px;font-size:.7rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);resize:none;outline:none;transition:.15s}
+.d-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+
+.d-select{position:relative;width:100%}
+.d-select select{width:100%;padding:8px 12px;font-size:.75rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);appearance:none;cursor:pointer;outline:none}
+
+.d-checkbox{display:flex;gap:16px;align-items:center}
+.d-checkbox label{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--text-secondary);cursor:pointer}
+.d-checkbox input[type="checkbox"]{accent-color:var(--accent);cursor:pointer}
+
+.d-radio{display:flex;gap:14px}
+.d-radio label{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--text-secondary);cursor:pointer}
+.d-radio input[type="radio"]{accent-color:var(--accent);cursor:pointer}
+
+.d-switch{position:relative;display:inline-block;width:40px;height:22px;cursor:pointer}
+.d-switch input{opacity:0;width:0;height:0;position:absolute}
+.d-switch .slider{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:22px;transition:.3s}
+.d-switch .slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.d-switch input:checked+.slider{background:var(--accent)}
+.d-switch input:checked+.slider::before{transform:translateX(18px)}
+
+.d-datepicker{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;width:100%}
+.d-datepicker .cal-icon{color:var(--text-muted);font-size:.85rem}
+.d-datepicker input{border:none;background:transparent;color:var(--text-primary);font-size:.72rem;cursor:pointer;outline:none;flex:1}
+.d-calendar{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);padding:12px;z-index:20;min-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.d-calendar.show{display:block}
+.d-calendar .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.72rem;color:#fff}
+.d-calendar .cal-header button{background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:.8rem}
+.d-calendar .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.d-calendar .cal-grid .day-hd{font-size:.58rem;color:var(--text-muted);padding:2px}
+.d-calendar .cal-grid .day{font-size:.65rem;padding:4px;border-radius:3px;cursor:pointer;color:var(--text-secondary)}
+.d-calendar .cal-grid .day:hover{background:var(--accent-glow)}
+.d-calendar .cal-grid .day.selected{background:var(--accent);color:#fff}
+
+.d-timepicker{display:flex;align-items:center;gap:4px;font-size:.78rem;color:var(--text-primary);background:rgba(0,0,0,0.2);padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;width:100%}
+.d-timepicker .tp-col{display:flex;flex-direction:column;align-items:center;gap:2px}
+.d-timepicker .tp-col button{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.6rem;padding:0 3px}
+
+.d-slider-w{display:flex;align-items:center;gap:10px;width:100%}
+.d-slider-w input[type="range"]{-webkit-appearance:none;flex:1;height:5px;background:var(--border);border-radius:3px;outline:none}
+.d-slider-w input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--accent);border-radius:50%;cursor:pointer}
+.d-slider-w .val{font-size:.68rem;color:var(--text-muted);min-width:32px;text-align:right}
+
+.d-inputnum{display:flex;align-items:center;gap:0}
+.d-inputnum button{padding:6px 12px;background:rgba(0,0,0,0.2);color:var(--text-secondary);border:1px solid var(--border);cursor:pointer;font-size:.75rem;transition:.15s}
+.d-inputnum button:hover{background:var(--accent-glow);color:#fff}
+.d-inputnum button:first-child{border-radius:var(--radius-sm) 0 0 var(--radius-sm)}
+.d-inputnum button:last-child{border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.d-inputnum .num{width:44px;text-align:center;font-size:.75rem;color:var(--text-primary);padding:6px 0;background:rgba(0,0,0,0.2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+
+.d-upload{border:1.5px dashed var(--border);border-radius:var(--radius-sm);padding:24px;text-align:center;font-size:.7rem;color:var(--text-muted);cursor:pointer;transition:.2s;width:100%}
+.d-upload:hover{border-color:var(--accent-light);color:var(--text-secondary)}
+.d-upload .up-file{font-size:.68rem;color:var(--accent-light);margin-top:4px}
+
+.d-search{display:flex;position:relative;width:100%}
+.d-search input{width:100%;padding:8px 12px 8px 30px;font-size:.75rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:20px;color:var(--text-primary);outline:none;transition:.15s}
+.d-search input:focus{border-color:var(--accent)}
+.d-search .s-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.65rem;color:var(--text-muted)}
+
+/* --- Button demos --- */
+.btn-p{display:inline-flex;padding:7px 18px;font-size:.72rem;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:all .15s;font-weight:600}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:active{transform:scale(.94)}
+.btn-secondary{background:transparent;color:var(--text-primary);border:1px solid var(--border)}.btn-secondary:active{transform:scale(.94);border-color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--accent-light);border:1px solid var(--accent)}.btn-ghost:active{border-color:#fff;color:#fff}
+.btn-icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;color:var(--text-primary);cursor:pointer;transition:.15s}
+.btn-icon:active{transform:rotate(15deg) scale(1.1)}
+.btn-fab{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;border:none;cursor:pointer;box-shadow:0 3px 10px rgba(233,69,96,.4);transition:.2s;position:relative}
+.btn-fab:active{transform:scale(.9)}
+.btn-fab .fab-menu{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;min-width:100px;z-index:10}
+.btn-fab .fab-menu.show{display:block}
+.btn-fab .fab-menu div{padding:7px 14px;font-size:.65rem;color:var(--text-secondary);cursor:pointer}
+.btn-fab .fab-menu div:hover{background:var(--accent-glow);color:#fff}
+.btn-group-d{display:inline-flex}
+.btn-group-d button{padding:6px 12px;font-size:.68rem;background:rgba(0,0,0,0.2);color:var(--text-secondary);border:1px solid var(--border);cursor:pointer;transition:.15s}
+.btn-group-d button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-group-d button:first-child{border-radius:var(--radius-sm) 0 0 var(--radius-sm)}
+.btn-group-d button:last-child{border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.btn-text-d{padding:4px 10px;font-size:.72rem;background:transparent;color:var(--accent-light);border:none;cursor:pointer;transition:.2s;text-decoration:underline transparent}
+.btn-text-d:active{text-decoration-color:var(--accent-light)}
+.btn-danger{padding:7px 18px;font-size:.72rem;background:#e74c3c;color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:600;transition:.15s}
+.btn-danger:active{animation:pulse .4s ease}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,.4)}50%{box-shadow:0 0 0 8px rgba(231,76,60,0)}}
+.btn-loading-d{padding:7px 18px;font-size:.72rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.btn-loading-d .ld{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;display:none}
+.btn-loading-d.loading .ld{display:block;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-disabled-d{padding:7px 18px;font-size:.72rem;background:rgba(0,0,0,0.2);color:var(--text-muted);border:1px solid var(--border);border-radius:var(--radius-sm);opacity:.5;cursor:not-allowed}
+
+/* --- Feedback demos --- */
+.d-toast-w{position:relative;display:inline-block}
+.d-toast-pop{position:absolute;top:-44px;left:50%;transform:translateX(-50%);padding:7px 16px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);font-size:.65rem;color:var(--text-primary);white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;gap:6px}
+.d-toast-pop.show{opacity:1}
+.d-toast-pop .dot{width:6px;height:6px;background:var(--success);border-radius:50%}
+.d-toast-trigger{padding:7px 16px;font-size:.7rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer}
+
+.d-modal-trigger{padding:7px 16px;font-size:.7rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer}
+.d-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center}
+.d-modal-overlay.show{display:flex}
+.d-modal-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);width:280px;overflow:hidden}
+.d-modal-box .mhd{padding:12px 16px;font-size:.8rem;font-weight:600;color:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.d-modal-box .mbd{padding:16px;font-size:.7rem;color:var(--text-secondary)}
+.d-modal-box .mft{padding:10px 16px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+.d-drawer-w{display:flex;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);width:100%}
+.d-drawer-w .dr-main{flex:1;padding:12px;font-size:.65rem;color:var(--text-secondary);background:rgba(0,0,0,0.15)}
+.d-drawer-w .dr-trigger{padding:6px 10px;font-size:.62rem;background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center}
+.d-drawer-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:300}
+.d-drawer-overlay.show{display:block}
+.d-drawer-panel{position:fixed;top:0;right:-300px;width:280px;height:100%;background:var(--bg-secondary);border-left:1px solid var(--border);z-index:301;transition:right .3s;padding:20px;font-size:.7rem;color:var(--text-secondary)}
+.d-drawer-panel.show{right:0}
+
+.d-tooltip-w{position:relative;display:inline-block}
+.d-tooltip-w .ttip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#333;color:#fff;font-size:.58rem;padding:4px 10px;border-radius:3px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s}
+.d-tooltip-w .ttip.show{opacity:1}
+.d-tooltip-w .ttarget{padding:6px 14px;font-size:.68rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer}
+
+.d-progress-w{width:100%}
+.d-progress-w .ptrack{width:100%;height:10px;background:rgba(0,0,0,0.2);border-radius:5px;overflow:hidden;cursor:pointer}
+.d-progress-w .pfill{height:100%;background:var(--accent);border-radius:5px;transition:width .4s}
+.d-progress-w .plabel{display:flex;justify-content:space-between;font-size:.62rem;color:var(--text-muted);margin-top:6px}
+
+.d-skeleton-d{display:flex;flex-direction:column;gap:8px;width:100%}
+.d-skeleton-d .sk-row{height:10px;background:var(--border);border-radius:3px;opacity:.6}
+
+.d-empty-d{text-align:center;padding:16px;font-size:.68rem;color:var(--text-muted);width:100%}
+.d-empty-d .empty-icon{font-size:1.6rem;margin-bottom:6px}
+
+.d-confirm-w{display:flex;flex-direction:column;align-items:center;gap:8px}
+.d-confirm-w .cf-trigger{padding:6px 16px;font-size:.68rem;background:#e74c3c;color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer}
+.d-confirm-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center}
+.d-confirm-overlay.show{display:flex}
+.d-confirm-dialog{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;width:260px}
+.d-confirm-dialog .cf-title{font-size:.8rem;color:#fff;font-weight:600;margin-bottom:8px}
+.d-confirm-dialog .cf-body{font-size:.68rem;color:var(--text-secondary);margin-bottom:14px}
+.d-confirm-dialog .cf-btns{display:flex;gap:8px;justify-content:center}
+
+.d-notif-w{display:flex;flex-direction:column;align-items:center}
+.d-notif-w .nf-trigger{padding:6px 16px;font-size:.68rem;background:var(--info);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer}
+.d-notif-pop{position:fixed;top:16px;right:16px;padding:12px 16px;background:var(--bg-secondary);border-left:3px solid var(--info);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:.68rem;color:var(--text-primary);z-index:310;opacity:0;pointer-events:none;transition:opacity .3s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.d-notif-pop.show{opacity:1}
+
+.d-popover-w{position:relative;display:inline-block}
+.d-popover-w .pop-card{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);padding:10px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.62rem;color:var(--text-secondary);white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:10}
+.d-popover-w .pop-card.show{display:block}
+.d-popover-w .pop-trigger{padding:6px 14px;font-size:.68rem;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer}
+
+.d-spinner-d{display:inline-flex;align-items:center;gap:10px}
+.d-spinner-d .sc{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;cursor:pointer}
+.d-spinner-d .sc.spinning{animation:spin .8s linear infinite}
+.d-spinner-d .slabel{font-size:.65rem;color:var(--text-muted)}
+
+.d-result-d{text-align:center;padding:16px;width:100%}
+.d-result-d .res-icon{font-size:2rem;margin-bottom:6px}
+.d-result-d .res-title{font-size:.8rem;color:#fff;font-weight:600}
+.d-result-d .res-desc{font-size:.65rem;color:var(--text-muted)}
+
+/* --- Layout demos --- */
+.d-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
+.d-grid .gcell{background:var(--bg-secondary);border:1px solid var(--border);border-radius:4px;padding:12px;text-align:center;font-size:.6rem;color:var(--text-muted)}
+
+.d-flex-w{display:flex;gap:8px;width:100%;transition:.3s}
+.d-flex-w .fit{flex:1;background:var(--bg-secondary);border:1px solid var(--border);border-radius:4px;padding:12px;text-align:center;font-size:.6rem;color:var(--text-muted)}
+.d-flex-w .fit.w2{flex:2}
+.d-flex-ctrl{display:flex;gap:8px;margin-top:10px;justify-content:center}
+.d-flex-ctrl button{padding:4px 10px;font-size:.6rem;background:rgba(0,0,0,0.2);color:var(--text-muted);border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:.15s}
+.d-flex-ctrl button:hover{color:#fff;border-color:var(--accent)}
+
+.d-card-f{width:200px;height:120px;perspective:600px;cursor:pointer;margin:0 auto}
+.d-card-f .card-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.d-card-f.flipped .card-inner{transform:rotateY(180deg)}
+.d-card-f .card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--border)}
+.d-card-f .card-front{background:var(--bg-secondary)}
+.d-card-f .card-front .cf-img{width:100%;height:56px;background:linear-gradient(135deg,var(--border),var(--border-light));display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--text-muted)}
+.d-card-f .card-front .cf-body{padding:6px;font-size:.65rem;color:var(--text-secondary)}
+.d-card-f .card-back{background:var(--accent);transform:rotateY(180deg);color:#fff;font-size:.68rem;font-weight:600}
+
+.d-accordion{width:100%}
+.d-accordion .aitem{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:6px}
+.d-accordion .ahd{padding:8px 14px;background:var(--bg-secondary);font-size:.68rem;color:#fff;cursor:pointer;display:flex;justify-content:space-between;transition:.15s}
+.d-accordion .ahd:hover{background:var(--accent-glow)}
+.d-accordion .abd{display:none;padding:10px 14px;font-size:.62rem;color:var(--text-muted);background:rgba(0,0,0,0.1);border-top:1px solid var(--border)}
+.d-accordion .abd.show{display:block}
+
+.d-divider-d{display:flex;align-items:center;gap:10px;font-size:.68rem;color:var(--text-muted);width:100%}
+.d-divider-d::before,.d-divider-d::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.d-spacing-d{display:flex;flex-direction:column;gap:6px;width:100%}
+.d-spacing-d .sblk{background:var(--bg-secondary);border-radius:2px}
+.d-spacing-d .sblk.s1{height:4px}
+.d-spacing-d .sblk.s2{height:10px}
+.d-spacing-d .sblk.s3{height:18px}
+
+.d-collapse{width:100%}
+.d-collapse .cp-item{border:1px solid var(--border);margin-bottom:4px;border-radius:3px;overflow:hidden}
+.d-collapse .cp-hd{padding:7px 12px;font-size:.65rem;color:#fff;background:var(--bg-secondary);cursor:pointer;transition:.15s}
+.d-collapse .cp-hd:hover{background:var(--accent-glow)}
+.d-collapse .cp-bd{display:none;padding:8px 12px;font-size:.6rem;color:var(--text-muted);background:rgba(0,0,0,0.1);border-top:1px solid var(--border)}
+.d-collapse .cp-bd.show{display:block}
+
+.d-bp{display:flex;gap:10px;align-items:center;width:100%;justify-content:center}
+.d-bp .bp{padding:5px 12px;font-size:.62rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:3px;color:var(--text-muted);cursor:pointer;transition:.15s}
+.d-bp .bp.active{border-color:var(--accent);color:var(--accent-light)}
+.d-bp .bp-preview{width:100%;height:32px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.58rem;color:var(--text-muted);transition:width .3s}
+
+/* --- Data Display demos --- */
+.d-table{width:100%;border-collapse:collapse;font-size:.65rem}
+.d-table th{background:var(--bg-secondary);padding:6px 10px;text-align:left;font-weight:600;color:var(--text-secondary);border-bottom:2px solid var(--border)}
+.d-table td{padding:6px 10px;color:var(--text-muted);border-bottom:1px solid var(--border);cursor:pointer;transition:.15s}
+.d-table tr:hover td{background:var(--accent-glow)}
+.d-table tr.row-active td{background:var(--accent-glow);color:#fff}
+
+.d-carousel{width:100%;background:var(--bg-secondary);border-radius:var(--radius-sm);overflow:hidden}
+.d-carousel .cslide-inner{position:relative;overflow:hidden}
+.d-carousel .cslides{display:flex;transition:transform .4s}
+.d-carousel .cslide{min-width:100%;height:100px;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--text-secondary)}
+.d-carousel .cslide:nth-child(1){background:linear-gradient(135deg,rgba(233,69,96,.2),rgba(52,152,219,.2))}
+.d-carousel .cslide:nth-child(2){background:linear-gradient(135deg,rgba(46,204,113,.2),rgba(233,69,96,.2))}
+.d-carousel .cslide:nth-child(3){background:linear-gradient(135deg,rgba(52,152,219,.2),rgba(46,204,113,.2))}
+.d-carousel .carrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;z-index:5}
+.d-carousel .carrow.left{left:8px}.d-carousel .carrow.right{right:8px}
+.d-carousel .cdots{display:flex;justify-content:center;gap:5px;padding:8px}
+.d-carousel .cdots .dot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:.15s}
+.d-carousel .cdots .dot.active{background:var(--accent)}
+
+.d-badge-d{position:relative;display:inline-block}
+.d-badge-d .bicon{width:28px;height:28px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm)}
+.d-badge-d .bdot{position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:1.5px solid var(--bg-card)}
+
+.d-tag-grp{display:flex;gap:6px;flex-wrap:wrap}
+.d-tag-grp .tag{padding:3px 10px;font-size:.62rem;border-radius:10px;cursor:pointer;transition:.15s}
+.d-tag-grp .tag.red{background:rgba(233,69,96,.15);color:var(--accent-light)}
+.d-tag-grp .tag.blue{background:rgba(52,152,219,.15);color:#5dade2}
+.d-tag-grp .tag.green{background:rgba(46,204,113,.15);color:#58d68d}
+.d-tag-grp .tag.selected{outline:2px solid var(--accent);outline-offset:1px}
+
+.d-avatar-grp{display:flex;gap:8px;align-items:center}
+.d-avatar-grp .av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;color:#fff;font-weight:600;cursor:pointer;transition:.15s}
+.d-avatar-grp .av.a1{background:#e94560}.d-avatar-grp .av.a2{background:#3498db}.d-avatar-grp .av.a3{background:#2ecc71}
+.d-avatar-grp .av:active{transform:scale(1.3)}
+
+.d-timeline{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:2px solid var(--border);width:100%}
+.d-timeline .tli{font-size:.58rem;color:var(--text-secondary);position:relative;padding:4px 0 4px 10px;cursor:pointer;transition:.15s}
+.d-timeline .tli::before{content:'';position:absolute;left:-20px;top:8px;width:7px;height:7px;background:var(--accent);border-radius:50%}
+.d-timeline .tli .tli-detail{display:none;font-size:.55rem;color:var(--text-muted);margin-top:2px}
+.d-timeline .tli.active .tli-detail{display:block}
+
+.d-list-d{display:flex;flex-direction:column;gap:0;width:100%}
+.d-list-d .li{padding:8px 12px;font-size:.65rem;color:var(--text-secondary);border-bottom:1px solid rgba(0,0,0,0.1);cursor:pointer;transition:.15s}
+.d-list-d .li:hover{background:var(--accent-glow)}
+.d-list-d .li.selected{background:var(--accent-glow);color:#fff}
+
+.d-stat{text-align:center;cursor:pointer}
+.d-stat .sv{font-size:1.4rem;font-weight:800;color:var(--accent-light);transition:.3s}
+.d-stat .sl{font-size:.62rem;color:var(--text-muted)}
+
+/* ===== Footer ===== */
+.footer{text-align:center;padding:32px 20px;margin-top:64px;border-top:1px solid var(--border);color:var(--text-muted);font-size:.8rem}
+
+/* ===== Responsive ===== */
+@media(max-width:860px){
+  .term--small,.term--medium{flex-direction:column}
+  .term--small .term-info,.term--medium .term-info{border-right:none;border-bottom:1px solid var(--border)}
+  .term--small .term-demo,.term--medium .term-demo{min-height:60px}
+  .nav a{padding:6px 10px;font-size:.75rem}
+  .header h1{font-size:1.8rem}
+}
+@media(max-width:480px){
+  .header h1{font-size:1.4rem}.header .subtitle{font-size:.85rem}
+  .container{padding:0 10px}
+}
+
+/* ===== Theme Toggle Button ===== */
+.theme-toggle {
+  margin-left: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all .25s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+.theme-icon {
+  display: inline-block;
+  transition: transform .4s;
+}
+.theme-toggle:active .theme-icon {
+  transform: rotate(180deg);
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <h1>前端 UI 术语<span>速查手册</span></h1>
+  <p class="subtitle">6 大分类 &middot; 60 个核心术语 &middot; 智能混合布局 &middot; 点击示例交互</p>
+</header>
+
+<!-- ===== Sticky Nav ===== -->
+<nav class="nav" id="nav">
+  <a href="#nav-section">导航</a>
+  <a href="#form-section">表单</a>
+  <a href="#button-section">按钮</a>
+  <a href="#feedback-section">反馈</a>
+  <a href="#layout-section">布局</a>
+  <a href="#data-section">数据展示</a>
+  <button class="theme-toggle" id="themeToggle" title="切换浅色/深色模式" aria-label="切换主题">
+    <span class="theme-icon" id="themeIcon">🌙</span>
+  </button>
+</nav>
+
+<!-- ===== Global Definition Popover ===== -->
+<div class="def-popover" id="defPopover">
+  <span class="pop-close" id="popClose">&times;</span>
+  <div class="pop-title" id="popTitle"></div>
+  <div id="popBody"></div>
+</div>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- 1. NAVIGATION -->
+<!-- ================================================================ -->
+<section class="section" id="nav-section">
+<h2 class="section-title"><span class="section-icon">&#8984;</span>导航 Navigation</h2>
+
+<!-- Breadcrumb (small 50/50) -->
+<div class="term-card term--small" data-def="显示当前页面在网站层级中的位置路径，帮助用户导航回上级页面。">
+  <div class="term-info" onclick="showDef(event,this,'面包屑 Breadcrumb')">
+    <span class="term-name">面包屑<span class="en">Breadcrumb</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-breadcrumb"><span>首页</span><span class="sep">/</span><span>产品</span><span class="sep">/</span><span class="current">详情</span></div>
+  </div>
+</div>
+
+<!-- Navbar (large stacked) -->
+<div class="term-card term--large" data-def="页面顶部的全局导航区域，包含站点Logo、菜单链接和常用操作入口。">
+  <div class="term-info" onclick="showDef(event,this,'导航栏 Navbar')">
+    <span class="term-name">导航栏<span class="en">Navbar</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">页面顶部的全局导航区域，包含站点Logo、菜单链接和常用操作入口。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-navbar">
+      <span class="logo">Logo</span>
+      <div class="links"><span class="active">首页</span><span>产品</span><span>关于</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar (large stacked) -->
+<div class="term-card term--large" data-def="固定在页面左侧或右侧的垂直导航区域，常用于后台管理系统的菜单。">
+  <div class="term-info" onclick="showDef(event,this,'侧边栏 Sidebar')">
+    <span class="term-name">侧边栏<span class="en">Sidebar</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">固定在页面左侧或右侧的垂直导航区域，常用于后台管理系统的菜单。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-sidebar">
+      <div class="sb"><div class="sb-item active"></div><div class="sb-item"></div><div class="sb-item"></div><div class="sb-item"></div></div>
+      <div class="main"><div class="main-line" style="width:60%"></div><div class="main-line" style="width:90%"></div><div class="main-line" style="width:40%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs (large stacked) -->
+<div class="term-card term--large" data-def="在同一区域内切换显示不同内容面板的导航组件。">
+  <div class="term-info" onclick="showDef(event,this,'标签页 Tabs')">
+    <span class="term-name">标签页<span class="en">Tabs</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">在同一区域内切换显示不同内容面板的导航组件。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-tabs">
+      <div class="tab-head"><button class="tab-btn active">选项卡 1</button><button class="tab-btn">选项卡 2</button><button class="tab-btn">选项卡 3</button></div>
+      <div class="tab-body">这是第一个面板的内容区域，Tabs 切换后这里的内容会同步更新。</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination (large stacked) -->
+<div class="term-card term--large" data-def="将大量数据或内容分割为多页显示，提供页码或上下页按钮进行翻页。">
+  <div class="term-info" onclick="showDef(event,this,'分页 Pagination')">
+    <span class="term-name">分页<span class="en">Pagination</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">将大量数据或内容分割为多页显示，提供页码或上下页按钮进行翻页。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-pagination">
+      <span class="pg">&lt;</span><span class="pg active">1</span><span class="pg">2</span><span class="pg">3</span><span class="pg">...</span><span class="pg">10</span><span class="pg">&gt;</span>
+    </div>
+  </div>
+</div>
+
+<!-- Anchor (small 50/50) -->
+<div class="term-card term--small" data-def="页面内的链接导航，点击后平滑滚动到页面对应区域，常用于长文档目录。">
+  <div class="term-info" onclick="showDef(event,this,'锚点 Anchor')">
+    <span class="term-name">锚点<span class="en">Anchor</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-anchor"><span>概述</span><span>安装指南</span><span>API 参考</span><span>常见问题</span></div>
+  </div>
+</div>
+
+<!-- Dropdown (large stacked) -->
+<div class="term-card term--large" data-def="点击或悬停后展开的选项菜单，用于收纳次要操作或选项列表。">
+  <div class="term-info" onclick="showDef(event,this,'下拉菜单 Dropdown')">
+    <span class="term-name">下拉菜单<span class="en">Dropdown</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">点击或悬停后展开的选项菜单，用于收纳次要操作或选项列表。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-dropdown" style="width:100%">
+      <div class="dd-btn">选择操作 <span class="dd-arrow">&#9660;</span></div>
+      <div class="dd-menu"><div class="dd-item">编辑</div><div class="dd-item">复制</div><div class="dd-item">删除</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Hamburger Menu (large stacked) -->
+<div class="term-card term--large" data-def="三条横线组成的图标按钮，移动端常用于展开/收起主导航菜单。">
+  <div class="term-info" onclick="showDef(event,this,'汉堡菜单 Hamburger Menu')">
+    <span class="term-name">汉堡菜单<span class="en">Hamburger Menu</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">三条横线组成的图标按钮，移动端常用于展开/收起主导航菜单。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="d-hamburger-menu"><div>首页</div><div>产品</div><div>关于</div><div>联系</div></div>
+  </div>
+</div>
+
+<!-- Footer Nav (small 50/50) -->
+<div class="term-card term--small" data-def="位于页面底部的辅助导航区，通常包含站点地图、法律声明和社交媒体链接。">
+  <div class="term-info" onclick="showDef(event,this,'页脚导航 Footer Nav')">
+    <span class="term-name">页脚导航<span class="en">Footer Nav</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-footer-nav"><span>关于我们</span><span>隐私政策</span><span>帮助中心</span></div>
+  </div>
+</div>
+
+<!-- Stepper (large stacked) -->
+<div class="term-card term--large" data-def="引导用户按步骤完成多阶段流程（如注册、下单）的进度指示器。">
+  <div class="term-info" onclick="showDef(event,this,'步骤条 Stepper')">
+    <span class="term-name">步骤条<span class="en">Stepper</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">引导用户按步骤完成多阶段流程（如注册、下单）的进度指示器。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-stepper">
+      <div class="step"><span class="step-num done">&#10003;</span></div><div class="step-line"></div>
+      <div class="step"><span class="step-num current">2</span></div><div class="step-line"></div>
+      <div class="step"><span class="step-num">3</span></div><div class="step-line"></div>
+      <div class="step"><span class="step-num">4</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 2. FORM -->
+<!-- ================================================================ -->
+<section class="section" id="form-section">
+<h2 class="section-title"><span class="section-icon">&#9998;</span>表单 Form</h2>
+
+<!-- Input (medium 40/60) -->
+<div class="term-card term--medium" data-def="基础表单控件，用于接收用户单行文本输入，如用户名、邮箱、搜索关键词。">
+  <div class="term-info" onclick="showDef(event,this,'输入框 Input')">
+    <span class="term-name">输入框<span class="en">Input</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><input class="d-input" type="text" placeholder="请输入用户名..."></div>
+</div>
+
+<!-- Textarea (medium 40/60) -->
+<div class="term-card term--medium" data-def="多行文本输入控件，适用于长文本如评论、留言、描述信息。">
+  <div class="term-info" onclick="showDef(event,this,'文本域 Textarea')">
+    <span class="term-name">文本域<span class="en">Textarea</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><textarea class="d-textarea" placeholder="请输入留言..." style="height:52px"></textarea></div>
+</div>
+
+<!-- Select (medium 40/60) -->
+<div class="term-card term--medium" data-def="点击展开选项列表，用户从预定义选项中选择一项。">
+  <div class="term-info" onclick="showDef(event,this,'下拉选择 Select')">
+    <span class="term-name">下拉选择<span class="en">Select</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-select"><select class="d-input"><option>请选择城市</option><option>北京</option><option>上海</option><option>深圳</option></select></div>
+  </div>
+</div>
+
+<!-- Checkbox (small 50/50) -->
+<div class="term-card term--small" data-def="允许用户从一组选项中独立地选择一个或多个选项的多选控件。">
+  <div class="term-info" onclick="showDef(event,this,'复选框 Checkbox')">
+    <span class="term-name">复选框<span class="en">Checkbox</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-checkbox">
+      <label><input type="checkbox" checked>选项 A</label>
+      <label><input type="checkbox">选项 B</label>
+      <label><input type="checkbox" checked>选项 C</label>
+    </div>
+  </div>
+</div>
+
+<!-- Radio (small 50/50) -->
+<div class="term-card term--small" data-def="一组互斥的选项，用户只能选择其中一个。">
+  <div class="term-info" onclick="showDef(event,this,'单选框 Radio')">
+    <span class="term-name">单选框<span class="en">Radio</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-radio">
+      <label><input type="radio" name="r1" checked>选项 1</label>
+      <label><input type="radio" name="r1">选项 2</label>
+      <label><input type="radio" name="r1">选项 3</label>
+    </div>
+  </div>
+</div>
+
+<!-- Switch (small 50/50) -->
+<div class="term-card term--small" data-def="用于切换两种对立状态（开/关、启用/禁用）的交互控件，比复选框更直观。">
+  <div class="term-info" onclick="showDef(event,this,'开关 Switch')">
+    <span class="term-name">开关<span class="en">Switch</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <label class="d-switch"><input type="checkbox" checked><span class="slider"></span></label>
+  </div>
+</div>
+
+<!-- DatePicker (large stacked) -->
+<div class="term-card term--large" data-def="通过日历面板选择日期，避免手动输入格式错误。">
+  <div class="term-info" onclick="showDef(event,this,'日期选择器 DatePicker')">
+    <span class="term-name">日期选择器<span class="en">DatePicker</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">通过日历面板选择日期，避免手动输入格式错误。</span>
+  </div>
+  <div class="term-demo" style="position:relative">
+    <div class="d-datepicker" style="position:relative"><span class="cal-icon">&#128197;</span><input type="text" value="2026-07-22" readonly><div class="d-calendar"><div class="cal-header"><button>&lt;</button><span>2026年7月</span><button>&gt;</button></div><div class="cal-grid"><span class="day-hd">一</span><span class="day-hd">二</span><span class="day-hd">三</span><span class="day-hd">四</span><span class="day-hd">五</span><span class="day-hd">六</span><span class="day-hd">日</span><span class="day"></span><span class="day"></span><span class="day">1</span><span class="day">2</span><span class="day">3</span><span class="day">4</span><span class="day">5</span><span class="day">6</span><span class="day">7</span><span class="day">8</span><span class="day">9</span><span class="day">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span><span class="day">16</span><span class="day">17</span><span class="day">18</span><span class="day">19</span><span class="day">20</span><span class="day">21</span><span class="day selected">22</span><span class="day">23</span><span class="day">24</span><span class="day">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span><span class="day">30</span><span class="day">31</span></div></div></div>
+  </div>
+</div>
+
+<!-- TimePicker (large stacked) -->
+<div class="term-card term--large" data-def="提供时间（时:分:秒）的选择面板，常用于预约、闹钟等场景。">
+  <div class="term-info" onclick="showDef(event,this,'时间选择器 TimePicker')">
+    <span class="term-name">时间选择器<span class="en">TimePicker</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">提供时间（时:分:秒）的选择面板，常用于预约、闹钟等场景。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-timepicker" style="justify-content:center;gap:16px">
+      <div class="tp-col"><button>+</button><span>14</span><button>-</button></div><span>:</span>
+      <div class="tp-col"><button>+</button><span>30</span><button>-</button></div><span>:</span>
+      <div class="tp-col"><button>+</button><span>00</span><button>-</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slider (medium 40/60) -->
+<div class="term-card term--medium" data-def="通过拖动滑块在连续或离散范围内选择数值，如音量调节、价格筛选。">
+  <div class="term-info" onclick="showDef(event,this,'滑块 Slider')">
+    <span class="term-name">滑块<span class="en">Slider</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-slider-w"><input type="range" min="0" max="100" value="65"><span class="val">65%</span></div>
+  </div>
+</div>
+
+<!-- InputNumber (medium 40/60) -->
+<div class="term-card term--medium" data-def="专门用于数值输入的控件，通常带增减按钮和范围限制。">
+  <div class="term-info" onclick="showDef(event,this,'数字输入框 InputNumber')">
+    <span class="term-name">数字输入框<span class="en">InputNumber</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-inputnum"><button>-</button><span class="num">5</span><button>+</button></div>
+  </div>
+</div>
+
+<!-- Upload (large stacked) -->
+<div class="term-card term--large" data-def="将本地文件通过浏览器上传到服务器的控件，通常支持拖拽和文件预览。">
+  <div class="term-info" onclick="showDef(event,this,'文件上传 Upload')">
+    <span class="term-name">文件上传<span class="en">Upload</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">将本地文件通过浏览器上传到服务器的控件，通常支持拖拽和文件预览。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-upload">&#128206; 点击或拖拽文件到此区域上传<div class="up-file"></div></div>
+  </div>
+</div>
+
+<!-- SearchBox (medium 40/60) -->
+<div class="term-card term--medium" data-def="带有搜索图标和搜索按钮的输入框，用于全文检索或筛选。">
+  <div class="term-info" onclick="showDef(event,this,'搜索框 SearchBox')">
+    <span class="term-name">搜索框<span class="en">SearchBox</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-search"><span class="s-icon">&#128269;</span><input type="text" placeholder="搜索文档、文件..."></div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 3. BUTTON -->
+<!-- ================================================================ -->
+<section class="section" id="button-section">
+<h2 class="section-title"><span class="section-icon">&#9633;</span>按钮 Button</h2>
+
+<!-- Primary (small 50/50) -->
+<div class="term-card term--small" data-def="页面上最重要的操作按钮，使用高亮主题色，引导用户执行核心动作。">
+  <div class="term-info" onclick="showDef(event,this,'主按钮 Primary Button')">
+    <span class="term-name">主按钮<span class="en">Primary Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-p btn-primary">确认提交</button></div>
+</div>
+
+<!-- Secondary (small 50/50) -->
+<div class="term-card term--small" data-def="次要操作按钮，使用描边或浅色样式，常用于「取消」「返回」等非核心操作。">
+  <div class="term-info" onclick="showDef(event,this,'次按钮 Secondary Button')">
+    <span class="term-name">次按钮<span class="en">Secondary Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-p btn-secondary">取消</button></div>
+</div>
+
+<!-- Ghost (small 50/50) -->
+<div class="term-card term--small" data-def="仅描边、背景透明的按钮，常用于深色背景或需要弱化视觉重量的场景。">
+  <div class="term-info" onclick="showDef(event,this,'幽灵按钮 Ghost Button')">
+    <span class="term-name">幽灵按钮<span class="en">Ghost Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-p btn-ghost">了解更多</button></div>
+</div>
+
+<!-- Icon Button (small 50/50) -->
+<div class="term-card term--small" data-def="仅由图标构成的按钮，节省空间，常见于工具栏（如编辑、删除、设置图标）。">
+  <div class="term-info" onclick="showDef(event,this,'图标按钮 Icon Button')">
+    <span class="term-name">图标按钮<span class="en">Icon Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-icon">&#9733;</button></div>
+</div>
+
+<!-- FAB (small 50/50) -->
+<div class="term-card term--small" data-def="Floating Action Button，固定在页面右下角的圆形按钮，代表页面最主要操作。">
+  <div class="term-info" onclick="showDef(event,this,'悬浮按钮 FAB')">
+    <span class="term-name">悬浮按钮<span class="en">FAB</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <button class="btn-fab">+</button>
+  </div>
+</div>
+
+<!-- ButtonGroup (small 50/50) -->
+<div class="term-card term--small" data-def="将多个相关按钮紧密组合，常用于切换视图（列表/网格）或文字格式工具栏。">
+  <div class="term-info" onclick="showDef(event,this,'按钮组 ButtonGroup')">
+    <span class="term-name">按钮组<span class="en">ButtonGroup</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="btn-group-d"><button class="active">B</button><button>I</button><button>U</button></div>
+  </div>
+</div>
+
+<!-- Text Button (small 50/50) -->
+<div class="term-card term--small" data-def="纯文本样式按钮，无边框无背景，视觉重量最轻，常用于表格操作列或内联操作。">
+  <div class="term-info" onclick="showDef(event,this,'文字按钮 Text Button')">
+    <span class="term-name">文字按钮<span class="en">Text Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-text-d">编辑</button></div>
+</div>
+
+<!-- Danger (small 50/50) -->
+<div class="term-card term--small" data-def="使用红色警告用户该操作具有破坏性（如删除账号、清空数据）。">
+  <div class="term-info" onclick="showDef(event,this,'危险按钮 Danger Button')">
+    <span class="term-name">危险按钮<span class="en">Danger Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-p btn-danger">删除</button></div>
+</div>
+
+<!-- Loading Button (small 50/50) -->
+<div class="term-card term--small" data-def="按钮内显示加载动画，表示操作正在处理中，同时禁用点击防止重复提交。">
+  <div class="term-info" onclick="showDef(event,this,'加载按钮 Loading Button')">
+    <span class="term-name">加载按钮<span class="en">Loading Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <button class="btn-loading-d"><span class="ld"></span>提交中...</button>
+  </div>
+</div>
+
+<!-- Disabled Button (small 50/50) -->
+<div class="term-card term--small" data-def="灰色不可点击状态的按钮，表示当前条件不满足，操作暂不可用。">
+  <div class="term-info" onclick="showDef(event,this,'禁用按钮 Disabled Button')">
+    <span class="term-name">禁用按钮<span class="en">Disabled Button</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo"><button class="btn-p btn-disabled-d">不可用</button></div>
+</div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 4. FEEDBACK -->
+<!-- ================================================================ -->
+<section class="section" id="feedback-section">
+<h2 class="section-title"><span class="section-icon">&#9888;</span>反馈 Feedback</h2>
+
+<!-- Toast (small 50/50) -->
+<div class="term-card term--small" data-def="短暂出现的轻量级消息提示，自动消失，不打断用户操作流程。">
+  <div class="term-info" onclick="showDef(event,this,'Toast 提示')">
+    <span class="term-name">Toast 提示<span class="en">Toast</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-toast-w"><div class="d-toast-pop"><span class="dot"></span>操作成功！</div><button class="d-toast-trigger">点击弹出 Toast</button></div>
+  </div>
+</div>
+
+<!-- Modal (large stacked) -->
+<div class="term-card term--large" data-def="覆盖在页面之上的弹出窗口，带有遮罩层，强制用户先处理弹窗内操作。">
+  <div class="term-info" onclick="showDef(event,this,'模态框 Modal')">
+    <span class="term-name">模态框<span class="en">Modal</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">覆盖在页面之上的弹出窗口，带有遮罩层，强制用户先处理弹窗内操作。</span>
+  </div>
+  <div class="term-demo">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <button class="d-modal-trigger">打开模态框</button>
+      <div class="d-modal-overlay">
+        <div class="d-modal-box"><div class="mhd"><span>对话框标题</span><span style="cursor:pointer">&times;</span></div><div class="mbd">这是模态框的内容区域。点击遮罩或关闭按钮可关闭。</div><div class="mft"><button class="btn-p btn-secondary" style="font-size:.6rem;padding:3px 10px">取消</button><button class="btn-p btn-primary" style="font-size:.6rem;padding:3px 10px">确认</button></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer (large stacked) -->
+<div class="term-card term--large" data-def="从屏幕边缘滑出的面板，常用于展示详情、表单或设置，不阻断主内容浏览。">
+  <div class="term-info" onclick="showDef(event,this,'抽屉 Drawer')">
+    <span class="term-name">抽屉<span class="en">Drawer</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">从屏幕边缘滑出的面板，常用于展示详情、表单或设置，不阻断主内容浏览。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-drawer-w" style="width:100%"><div class="dr-main">主内容区域</div><button class="dr-trigger">打开</button></div>
+    <div class="d-drawer-overlay"></div>
+    <div class="d-drawer-panel"><strong style="color:#fff">抽屉面板</strong><div style="margin-top:12px">从右侧滑入的内容区域，点击遮罩关闭。</div></div>
+  </div>
+</div>
+
+<!-- Tooltip (small 50/50) -->
+<div class="term-card term--small" data-def="鼠标悬停时出现的简短文字提示，用于解释按钮功能或补充说明。">
+  <div class="term-info" onclick="showDef(event,this,'气泡提示 Tooltip')">
+    <span class="term-name">气泡提示<span class="en">Tooltip</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-tooltip-w"><div class="ttip">这是提示信息</div><div class="ttarget">鼠标悬停我</div></div>
+  </div>
+</div>
+
+<!-- Progress (small 50/50) -->
+<div class="term-card term--small" data-def="可视化展示任务完成进度的条形指示器，常用于上传、下载、安装等场景。">
+  <div class="term-info" onclick="showDef(event,this,'进度条 Progress')">
+    <span class="term-name">进度条<span class="en">Progress</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-progress-w"><div class="ptrack"><div class="pfill" style="width:45%"></div></div><div class="plabel"><span>上传中...</span><span>45%</span></div></div>
+  </div>
+</div>
+
+<!-- Skeleton (large stacked) -->
+<div class="term-card term--large" data-def="页面加载时的占位UI，展示内容区域的大致轮廓，减少用户等待焦虑。">
+  <div class="term-info" onclick="showDef(event,this,'骨架屏 Skeleton')">
+    <span class="term-name">骨架屏<span class="en">Skeleton</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">页面加载时的占位UI，展示内容区域的大致轮廓，减少用户等待焦虑。</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-skeleton-d"><div class="sk-row" style="width:55%"></div><div class="sk-row" style="width:88%"></div><div class="sk-row" style="width:40%"></div><div class="sk-row" style="width:72%"></div><div class="sk-row" style="width:30%"></div></div>
+  </div>
+</div>
+
+<!-- Empty State (large stacked) -->
+<div class="term-card term--large" data-def="当列表或页面无数据时显示的提示区，通常包含图标、文字和引导操作按钮。">
+  <div class="term-info" onclick="showDef(event,this,'空状态 Empty State')">
+    <span class="term-name">空状态<span class="en">Empty State</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">当列表或页面无数据时显示的提示区，通常包含图标、文字和引导操作按钮。</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-empty-d"><div class="empty-icon">&#128230;</div><div>暂无数据</div></div>
+  </div>
+</div>
+
+<!-- Confirm Dialog (large stacked) -->
+<div class="term-card term--large" data-def="在危险操作前的二次确认弹窗，防止用户误操作造成不可逆后果。">
+  <div class="term-info" onclick="showDef(event,this,'确认弹窗 Confirm Dialog')">
+    <span class="term-name">确认弹窗<span class="en">Confirm Dialog</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">在危险操作前的二次确认弹窗，防止用户误操作造成不可逆后果。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-confirm-w"><button class="cf-trigger">删除记录</button></div>
+    <div class="d-confirm-overlay"><div class="d-confirm-dialog"><div class="cf-title">确认删除？</div><div class="cf-body">此操作不可撤销，确定要继续吗？</div><div class="cf-btns"><button class="btn-p btn-secondary" style="font-size:.6rem;padding:3px 12px">取消</button><button class="btn-p btn-danger" style="font-size:.6rem;padding:3px 12px">确认</button></div></div></div>
+  </div>
+</div>
+
+<!-- Notification (large stacked) -->
+<div class="term-card term--large" data-def="从页面右上角弹出的全局通知，比 Toast 更显眼，用于系统级消息提醒。">
+  <div class="term-info" onclick="showDef(event,this,'消息通知 Notification')">
+    <span class="term-name">消息通知<span class="en">Notification</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">从页面右上角弹出的全局通知，比 Toast 更显眼，用于系统级消息提醒。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-notif-w"><button class="nf-trigger">发送通知</button></div>
+    <div class="d-notif-pop">&#128276; 您有 3 条新消息</div>
+  </div>
+</div>
+
+<!-- Popover (large stacked) -->
+<div class="term-card term--large" data-def="点击后弹出的浮层卡片，可包含标题、内容和操作，比 Tooltip 承载更多信息。">
+  <div class="term-info" onclick="showDef(event,this,'气泡卡片 Popover')">
+    <span class="term-name">气泡卡片<span class="en">Popover</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">点击后弹出的浮层卡片，可包含标题、内容和操作，比 Tooltip 承载更多信息。</span>
+  </div>
+  <div class="term-demo" style="justify-content:center;">
+    <div class="d-popover-w"><div class="pop-card"><strong style="color:#fff">气泡标题</strong><div style="margin-top:4px">这是气泡卡片的内容。</div></div><div class="pop-trigger">点击弹出</div></div>
+  </div>
+</div>
+
+<!-- Spinner (small 50/50) -->
+<div class="term-card term--small" data-def="旋转动画指示器，表示系统正在处理请求，请用户耐心等待。">
+  <div class="term-info" onclick="showDef(event,this,'加载中 Spinner')">
+    <span class="term-name">加载中<span class="en">Spinner</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-spinner-d"><div class="sc spinning"></div><span class="slabel">加载中...</span></div>
+  </div>
+</div>
+
+<!-- Result Page (large stacked) -->
+<div class="term-card term--large" data-def="操作完成后的反馈页面，展示成功/失败状态及后续引导操作。">
+  <div class="term-info" onclick="showDef(event,this,'结果页 Result Page')">
+    <span class="term-name">结果页<span class="en">Result Page</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">操作完成后的反馈页面，展示成功/失败状态及后续引导操作。</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-result-d"><div class="res-icon">&#10004;</div><div class="res-title">提交成功</div><div class="res-desc">我们将在 3 个工作日内处理</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 5. LAYOUT -->
+<!-- ================================================================ -->
+<section class="section" id="layout-section">
+<h2 class="section-title"><span class="section-icon">&#9638;</span>布局 Layout</h2>
+
+<!-- Grid (large stacked) -->
+<div class="term-card term--large" data-def="基于行列划分的布局系统（通常12列），用于快速构建响应式页面结构。">
+  <div class="term-info" onclick="showDef(event,this,'栅格系统 Grid')">
+    <span class="term-name">栅格系统<span class="en">Grid</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">基于行列划分的布局系统（通常12列），用于快速构建响应式页面结构。</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-grid"><div class="gcell">1</div><div class="gcell">2</div><div class="gcell">3</div><div class="gcell">4</div></div>
+  </div>
+</div>
+
+<!-- Flexbox (medium 40/60) -->
+<div class="term-card term--medium" data-def="CSS一维布局模型，提供灵活的对齐和空间分配能力，是现代布局的基石。">
+  <div class="term-info" onclick="showDef(event,this,'弹性布局 Flexbox')">
+    <span class="term-name">弹性布局<span class="en">Flexbox</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-flex-w"><div class="fit">A</div><div class="fit w2">B</div><div class="fit">C</div></div>
+    <div class="d-flex-ctrl"><button>row</button><button>column</button><button>row-reverse</button></div>
+  </div>
+</div>
+
+<!-- Card (large stacked) -->
+<div class="term-card term--large" data-def="承载一组信息或操作的容器，具有明确的边框和阴影，是信息聚合的基础单元。">
+  <div class="term-info" onclick="showDef(event,this,'卡片 Card')">
+    <span class="term-name">卡片<span class="en">Card</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">承载一组信息或操作的容器，具有明确的边框和阴影，是信息聚合的基础单元。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-card-f"><div class="card-inner"><div class="card-face card-front"><div class="cf-img">封面图片</div><div class="cf-body">卡片标题</div></div><div class="card-face card-back">点击查看更多<br>卡片详情</div></div></div>
+  </div>
+</div>
+
+<!-- Accordion (large stacked) -->
+<div class="term-card term--large" data-def="可展开/收起的垂直面板组，同一时间通常只展开一项，有效节省页面空间。">
+  <div class="term-info" onclick="showDef(event,this,'手风琴 Accordion')">
+    <span class="term-name">手风琴<span class="en">Accordion</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">可展开/收起的垂直面板组，同一时间通常只展开一项，有效节省页面空间。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-accordion">
+      <div class="aitem"><div class="ahd"><span>面板一</span><span>&#9660;</span></div><div class="abd show">这是面板一的内容区域。</div></div>
+      <div class="aitem"><div class="ahd"><span>面板二</span><span>&#9654;</span></div><div class="abd">这是面板二的内容区域。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Divider (small 50/50) -->
+<div class="term-card term--small" data-def="用于分隔不同内容区域的水平线，可带文字标题，清晰划分视觉层次。">
+  <div class="term-info" onclick="showDef(event,this,'分割线 Divider')">
+    <span class="term-name">分割线<span class="en">Divider</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-divider-d"><span>分割线</span></div>
+  </div>
+</div>
+
+<!-- Spacing (small 50/50) -->
+<div class="term-card term--small" data-def="设计系统中统一的间距规范值（如4px/8px/16px/24px），保持页面呼吸感和一致性。">
+  <div class="term-info" onclick="showDef(event,this,'间距 Spacing')">
+    <span class="term-name">间距<span class="en">Spacing</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-spacing-d"><div class="sblk s1"></div><div class="sblk s1"></div><div class="sblk s2"></div><div class="sblk s1"></div><div class="sblk s3"></div></div>
+  </div>
+</div>
+
+<!-- Collapse (large stacked) -->
+<div class="term-card term--large" data-def="可展开/收起的内容区域面板，多用于 FAQ、设置项等需要按需展示的场景。">
+  <div class="term-info" onclick="showDef(event,this,'折叠面板 Collapse')">
+    <span class="term-name">折叠面板<span class="en">Collapse</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">可展开/收起的内容区域面板，多用于 FAQ、设置项等需要按需展示的场景。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-collapse">
+      <div class="cp-item"><div class="cp-hd">&#9660; 可折叠项</div><div class="cp-bd show">这是展开后的详细内容，可以看到更多信息。</div></div>
+      <div class="cp-item"><div class="cp-hd">&#9654; 另一项</div><div class="cp-bd">另一项的内容。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Breakpoint (large stacked) -->
+<div class="term-card term--large" data-def="在不同屏幕宽度设置的CSS断点（如576px/768px/992px），实现页面自适应适配。">
+  <div class="term-info" onclick="showDef(event,this,'响应式断点 Breakpoint')">
+    <span class="term-name">响应式断点<span class="en">Breakpoint</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">在不同屏幕宽度设置的CSS断点，实现页面自适应适配。</span>
+  </div>
+  <div class="term-demo">
+    <div style="width:100%">
+      <div class="d-bp"><span class="bp active">sm</span><span class="bp">md</span><span class="bp">lg</span><span class="bp">xl</span></div>
+      <div style="margin-top:10px"><div class="bp-preview" style="width:100%">全宽 (xl)</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 6. DATA DISPLAY -->
+<!-- ================================================================ -->
+<section class="section" id="data-section">
+<h2 class="section-title"><span class="section-icon">&#9776;</span>数据展示 Data Display</h2>
+
+<!-- Table (large stacked) -->
+<div class="term-card term--large" data-def="结构化展示多行多列数据的组件，支持排序、筛选、分页等交互功能。">
+  <div class="term-info" onclick="showDef(event,this,'表格 Table')">
+    <span class="term-name">表格<span class="en">Table</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">结构化展示多行多列数据的组件，支持排序、筛选、分页等交互功能。</span>
+  </div>
+  <div class="term-demo">
+    <table class="d-table">
+      <tr><th>姓名</th><th>部门</th><th>状态</th></tr>
+      <tr><td>张三</td><td>前端</td><td>在职</td></tr>
+      <tr><td>李四</td><td>后端</td><td>在职</td></tr>
+      <tr><td>王五</td><td>设计</td><td>实习</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Carousel (large stacked) -->
+<div class="term-card term--large" data-def="循环展示一组图片或内容的滑动组件，常用于首页 Banner 或产品展示。">
+  <div class="term-info" onclick="showDef(event,this,'轮播图 Carousel')">
+    <span class="term-name">轮播图<span class="en">Carousel</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">循环展示一组图片或内容的滑动组件，常用于首页 Banner 或产品展示。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-carousel">
+      <div class="cslide-inner">
+        <div class="cslides" style="transform:translateX(0%)"><div class="cslide">Slide 1</div><div class="cslide">Slide 2</div><div class="cslide">Slide 3</div></div>
+        <button class="carrow left">&lt;</button><button class="carrow right">&gt;</button>
+      </div>
+      <div class="cdots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Badge (small 50/50) -->
+<div class="term-card term--small" data-def="附着在图标或文字上的小圆点或数字，用于提示未读消息数或状态标识。">
+  <div class="term-info" onclick="showDef(event,this,'徽标 Badge')">
+    <span class="term-name">徽标<span class="en">Badge</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo" data-interactive="false">
+    <div class="d-badge-d"><div class="bicon"></div><span class="bdot"></span></div>
+  </div>
+</div>
+
+<!-- Tag (small 50/50) -->
+<div class="term-card term--small" data-def="用于标记、分类或筛选的小型标签，如文章标签、商品分类、状态标记。">
+  <div class="term-info" onclick="showDef(event,this,'标签 Tag')">
+    <span class="term-name">标签<span class="en">Tag</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-tag-grp"><span class="tag red">前端</span><span class="tag blue">React</span><span class="tag green">已发布</span></div>
+  </div>
+</div>
+
+<!-- Avatar (small 50/50) -->
+<div class="term-card term--small" data-def="用户头像展示组件，支持图片、文字缩写或图标，常用于评论区或用户菜单。">
+  <div class="term-info" onclick="showDef(event,this,'头像 Avatar')">
+    <span class="term-name">头像<span class="en">Avatar</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-avatar-grp"><div class="av a1">张</div><div class="av a2">李</div><div class="av a3">王</div></div>
+  </div>
+</div>
+
+<!-- Timeline (large stacked) -->
+<div class="term-card term--large" data-def="按时间顺序纵向展示事件或日志的组件，常用于订单追踪、版本记录等。">
+  <div class="term-info" onclick="showDef(event,this,'时间轴 Timeline')">
+    <span class="term-name">时间轴<span class="en">Timeline</span></span>
+    <span class="info-icon">&#9432;</span>
+    <span class="term-desc-inline">按时间顺序纵向展示事件或日志的组件，常用于订单追踪、版本记录等。</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-timeline">
+      <div class="tli">订单已签收<div class="tli-detail">2026-07-22 14:30 本人签收</div></div>
+      <div class="tli">快递派送中<div class="tli-detail">2026-07-22 09:15 快递员已取件</div></div>
+      <div class="tli">商品已出库<div class="tli-detail">2026-07-21 18:00 仓库发货</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- List (medium 40/60) -->
+<div class="term-card term--medium" data-def="垂直排列的一组同类型数据条目，是移动端和 Web 端最常用的数据呈现方式。">
+  <div class="term-info" onclick="showDef(event,this,'列表 List')">
+    <span class="term-name">列表<span class="en">List</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-list-d"><div class="li">列表项 1</div><div class="li">列表项 2</div><div class="li">列表项 3</div></div>
+  </div>
+</div>
+
+<!-- Statistic (small 50/50) -->
+<div class="term-card term--small" data-def="突出展示单个统计数字的组件（如总用户数、今日访问量），常用于仪表盘。">
+  <div class="term-info" onclick="showDef(event,this,'统计数值 Statistic')">
+    <span class="term-name">统计数值<span class="en">Statistic</span></span>
+    <span class="info-icon">&#9432;</span>
+  </div>
+  <div class="term-demo">
+    <div class="d-stat"><div class="sv">12,846</div><div class="sl">今日活跃用户</div></div>
+  </div>
+</div>
+</section>
+
+</div><!-- /.container -->
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <p>前端 UI 术语速查手册 &copy; 2026 &middot; 60 个核心术语 &middot; 智能混合布局</p>
+</footer>
+
+<!-- ================================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ================================================================ -->
+<script>
+/* ===== Theme Toggle ===== */
+(function(){
+  var saved = localStorage.getItem('ui-glossary-theme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+  var btn = document.getElementById('themeToggle');
+  var icon = document.getElementById('themeIcon');
+  if (btn && icon) {
+    var isLight = function(){
+      return document.documentElement.getAttribute('data-theme') === 'light';
+    };
+    var updateIcon = function(){
+      icon.textContent = isLight() ? '\u2600\uFE0F' : '\uD83C\uDF19';
+    };
+    updateIcon();
+    btn.addEventListener('click', function(){
+      if (isLight()) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('ui-glossary-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('ui-glossary-theme', 'light');
+      }
+      updateIcon();
+    });
+  }
+})();
+
+(function(){
+/* ===== Definition Popover ===== */
+const popover=document.getElementById('defPopover');
+const popTitle=document.getElementById('popTitle');
+const popBody=document.getElementById('popBody');
+const popClose=document.getElementById('popClose');
+let popSrc=null;
+
+function hidePop(){popover.classList.remove('show');popSrc=null}
+popClose.addEventListener('click',e=>{e.stopPropagation();hidePop()});
+
+window.showDef=function(e,el,name){
+  e.stopPropagation();
+  const card=el.closest('.term-card');
+  const def=card?card.getAttribute('data-def'):'';
+  popTitle.textContent=name;
+  popBody.textContent=def;
+  const rect=el.getBoundingClientRect();
+  popover.style.left=rect.left+'px';
+  popover.style.top=(rect.bottom+8)+'px';
+  popover.classList.add('show');
+  popSrc=el;
+};
+document.addEventListener('click',function(e){
+  if(popSrc&&!popover.contains(e.target)&&!popSrc.contains(e.target))hidePop();
+});
+
+/* ===== Nav Active State ===== */
+const sections=document.querySelectorAll('.section');
+const navLinks=document.querySelectorAll('.nav a');
+function onScroll(){
+  let cur='';const nh=72;
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-nh)cur=s.getAttribute('id')});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ===== Interactions ===== */
+
+/* Navbar: click menu items */
+document.querySelectorAll('.d-navbar .links span').forEach(s=>{
+  s.addEventListener('click',function(e){e.stopPropagation();
+    this.parentElement.querySelectorAll('span').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Sidebar: click items */
+document.querySelectorAll('.d-sidebar .sb-item').forEach(s=>{
+  s.addEventListener('click',function(e){e.stopPropagation();
+    this.parentElement.querySelectorAll('.sb-item').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Tabs: switch panels */
+document.querySelectorAll('.d-tabs').forEach(tabs=>{
+  const btns=tabs.querySelectorAll('.tab-btn');
+  const body=tabs.querySelector('.tab-body');
+  const panels=['这是第一个面板的内容区域，Tabs 切换后这里的内容会同步更新。','这是第二个面板的内容。Tab 切换交互已生效。','这是第三个面板的内容。点击任意 Tab 切换。'];
+  btns.forEach((btn,i)=>{
+    btn.addEventListener('click',function(e){e.stopPropagation();
+      btns.forEach(b=>b.classList.remove('active'));this.classList.add('active');
+      if(body)body.textContent=panels[i]||('面板 '+(i+1)+' 的内容');
+    });
+  });
+});
+
+/* Pagination: click page number */
+document.querySelectorAll('.d-pagination .pg').forEach(pg=>{
+  pg.addEventListener('click',function(e){e.stopPropagation();
+    if(this.textContent==='...'||this.textContent==='<'||this.textContent==='>')return;
+    this.parentElement.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Dropdown: toggle */
+document.querySelectorAll('.d-dropdown').forEach(dd=>{
+  const btn=dd.querySelector('.dd-btn');
+  btn.addEventListener('click',function(e){e.stopPropagation();dd.classList.toggle('open')});
+  dd.querySelectorAll('.dd-item').forEach(item=>{
+    item.addEventListener('click',function(e){e.stopPropagation();
+      btn.childNodes[0].textContent=this.textContent;dd.classList.remove('open')});
+  });
+});
+
+/* Hamburger: toggle menu */
+document.querySelectorAll('.d-hamburger').forEach(ham=>{
+  ham.addEventListener('click',function(e){e.stopPropagation();
+    this.classList.toggle('open');
+    const menu=this.nextElementSibling;
+    if(menu&&menu.classList.contains('d-hamburger-menu'))menu.classList.toggle('show');
+  });
+});
+
+/* Footer Nav: highlight */
+document.querySelectorAll('.d-footer-nav span').forEach(s=>{
+  s.addEventListener('click',function(e){e.stopPropagation();
+    this.parentElement.querySelectorAll('span').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Stepper */
+document.querySelectorAll('.d-stepper .step-num').forEach(sn=>{
+  sn.addEventListener('click',function(e){e.stopPropagation();
+    const stepper=this.closest('.d-stepper');
+    const nums=stepper.querySelectorAll('.step-num');
+    let target=Array.from(nums).indexOf(this);
+    nums.forEach((n,i)=>{
+      n.classList.remove('done','current');
+      if(i<target)n.classList.add('done');
+      else if(i===target)n.classList.add('current');
+    });
+  });
+});
+
+/* Slider: update value */
+document.querySelectorAll('.d-slider-w input[type="range"]').forEach(s=>{
+  s.addEventListener('input',function(e){e.stopPropagation();
+    const val=this.closest('.d-slider-w').querySelector('.val');
+    if(val)val.textContent=this.value+'%';
+  });
+});
+
+/* InputNumber: +/- */
+document.querySelectorAll('.d-inputnum').forEach(inum=>{
+  const num=inum.querySelector('.num');
+  const btns=inum.querySelectorAll('button');
+  if(btns[0])btns[0].addEventListener('click',function(e){e.stopPropagation();
+    num.textContent=Math.max(0,parseInt(num.textContent)-1)});
+  if(btns[1])btns[1].addEventListener('click',function(e){e.stopPropagation();
+    num.textContent=parseInt(num.textContent)+1});
+});
+
+/* Upload: simulate file select */
+document.querySelectorAll('.d-upload').forEach(up=>{
+  up.addEventListener('click',function(e){e.stopPropagation();
+    const fd=this.querySelector('.up-file');
+    if(fd)fd.textContent='已选择: report.pdf (1.2MB)';
+  });
+});
+
+/* DatePicker: toggle calendar */
+document.querySelectorAll('.d-datepicker').forEach(dp=>{
+  dp.addEventListener('click',function(e){e.stopPropagation();
+    const cal=this.querySelector('.d-calendar');
+    if(cal)cal.classList.toggle('show');
+  });
+  const cal=dp.querySelector('.d-calendar');
+  if(cal){
+    cal.addEventListener('click',function(e){e.stopPropagation()});
+    cal.querySelectorAll('.day').forEach(d=>{
+      d.addEventListener('click',function(e){e.stopPropagation();
+        cal.querySelectorAll('.day').forEach(x=>x.classList.remove('selected'));
+        this.classList.add('selected');
+        const input=dp.querySelector('input');
+        if(input)input.value='2026-07-'+this.textContent.padStart(2,'0');
+        cal.classList.remove('show');
+      });
+    });
+  }
+});
+
+/* TimePicker: +/- */
+document.querySelectorAll('.d-timepicker .tp-col').forEach(col=>{
+  const span=col.querySelector('span');
+  const btns=col.querySelectorAll('button');
+  if(btns[0])btns[0].addEventListener('click',function(e){e.stopPropagation();
+    let v=parseInt(span.textContent);span.textContent=String(Math.min(59,v+1)).padStart(2,'0')});
+  if(btns[1])btns[1].addEventListener('click',function(e){e.stopPropagation();
+    let v=parseInt(span.textContent);span.textContent=String(Math.max(0,v-1)).padStart(2,'0')});
+});
+
+/* Buttons: active animations */
+document.querySelectorAll('.btn-p.btn-primary,.btn-p.btn-secondary,.btn-p.btn-ghost').forEach(b=>{
+  b.addEventListener('click',function(e){e.stopPropagation()});
+});
+
+/* FAB: toggle menu */
+document.querySelectorAll('.btn-fab').forEach(fab=>{
+  fab.addEventListener('click',function(e){e.stopPropagation();
+    let menu=fab.querySelector('.fab-menu');
+    if(!menu){menu=document.createElement('div');menu.className='fab-menu';
+      menu.innerHTML='<div>新建</div><div>上传</div><div>分享</div>';fab.appendChild(menu)}
+    menu.classList.toggle('show');
+  });
+});
+
+/* ButtonGroup: toggle active */
+document.querySelectorAll('.btn-group-d button').forEach(b=>{
+  b.addEventListener('click',function(e){e.stopPropagation();
+    this.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Loading Button: toggle spin */
+document.querySelectorAll('.btn-loading-d').forEach(b=>{
+  b.addEventListener('click',function(e){e.stopPropagation();
+    this.classList.toggle('loading');
+    this.childNodes[1]&&(this.childNodes[1].textContent=this.classList.contains('loading')?'提交中...':'提交');
+  });
+});
+
+/* Danger button: pulse on click handled by CSS :active */
+
+/* Toast */
+document.querySelectorAll('.d-toast-trigger').forEach(t=>{
+  t.addEventListener('click',function(e){e.stopPropagation();
+    const pop=this.parentElement.querySelector('.d-toast-pop');
+    if(pop){pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),2000)}
+  });
+});
+
+/* Modal */
+document.querySelectorAll('.d-modal-trigger').forEach(t=>{
+  t.addEventListener('click',function(e){e.stopPropagation();
+    const overlay=this.closest('.term-demo').querySelector('.d-modal-overlay');
+    if(overlay)overlay.classList.add('show');
+  });
+});
+document.querySelectorAll('.d-modal-overlay').forEach(o=>{
+  o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')});
+  const close=o.querySelector('.mhd span:last-child');
+  if(close)close.addEventListener('click',function(e){e.stopPropagation();o.classList.remove('show')});
+  o.querySelectorAll('.mft button').forEach(b=>b.addEventListener('click',function(e){e.stopPropagation();o.classList.remove('show')}));
+});
+
+/* Drawer */
+document.querySelectorAll('.dr-trigger').forEach(t=>{
+  t.addEventListener('click',function(e){e.stopPropagation();
+    const demo=this.closest('.term-demo');
+    const overlay=demo.querySelector('.d-drawer-overlay');
+    const panel=demo.querySelector('.d-drawer-panel');
+    if(overlay)overlay.classList.add('show');
+    if(panel)panel.classList.add('show');
+  });
+});
+document.querySelectorAll('.d-drawer-overlay').forEach(o=>{
+  o.addEventListener('click',function(e){
+    this.classList.remove('show');
+    const demo=this.closest('.term-demo');
+    const panel=demo.querySelector('.d-drawer-panel');
+    if(panel)panel.classList.remove('show');
+  });
+});
+
+/* Tooltip: hover show */
+document.querySelectorAll('.d-tooltip-w').forEach(tw=>{
+  const tip=tw.querySelector('.ttip');
+  const target=tw.querySelector('.ttarget');
+  if(target&&tip){
+    target.addEventListener('mouseenter',()=>tip.classList.add('show'));
+    target.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+  }
+});
+
+/* Progress: click to cycle */
+document.querySelectorAll('.d-progress-w .ptrack').forEach(pt=>{
+  pt.addEventListener('click',function(e){e.stopPropagation();
+    const pw=this.closest('.d-progress-w');
+    const fill=pw.querySelector('.pfill');
+    const label=pw.querySelector('.plabel span:last-child');
+    const vals=[25,45,65,85,100];
+    let cur=parseInt(fill.style.width)||45;
+    let idx=vals.indexOf(cur);if(idx<0)idx=1;
+    let nv=vals[(idx+1)%vals.length];
+    fill.style.width=nv+'%';if(label)label.textContent=nv+'%';
+  });
+});
+
+/* Confirm Dialog */
+document.querySelectorAll('.cf-trigger').forEach(t=>{
+  t.addEventListener('click',function(e){e.stopPropagation();
+    const overlay=this.closest('.term-demo').querySelector('.d-confirm-overlay');
+    if(overlay)overlay.classList.add('show');
+  });
+});
+document.querySelectorAll('.d-confirm-overlay').forEach(o=>{
+  o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')});
+  o.querySelectorAll('button').forEach(b=>b.addEventListener('click',function(e){e.stopPropagation();o.classList.remove('show')}));
+});
+
+/* Notification */
+document.querySelectorAll('.nf-trigger').forEach(t=>{
+  t.addEventListener('click',function(e){e.stopPropagation();
+    const pop=this.closest('.term-demo').querySelector('.d-notif-pop');
+    if(pop){pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),2500)}
+  });
+});
+
+/* Popover */
+document.querySelectorAll('.d-popover-w').forEach(pw=>{
+  const trig=pw.querySelector('.pop-trigger');
+  const card=pw.querySelector('.pop-card');
+  if(trig&&card){
+    trig.addEventListener('click',function(e){e.stopPropagation();card.classList.toggle('show')});
+  }
+});
+
+/* Spinner: click to toggle */
+document.querySelectorAll('.d-spinner-d .sc').forEach(sc=>{
+  sc.addEventListener('click',function(e){e.stopPropagation();
+    this.classList.toggle('spinning');
+    const label=this.parentElement.querySelector('.slabel');
+    if(label)label.textContent=this.classList.contains('spinning')?'加载中...':'已停止';
+  });
+});
+
+/* Flexbox: direction buttons */
+document.querySelectorAll('.d-flex-ctrl button').forEach(b=>{
+  b.addEventListener('click',function(e){e.stopPropagation();
+    const wrap=this.closest('.term-demo').querySelector('.d-flex-w');
+    if(wrap)wrap.style.flexDirection=this.textContent;
+  });
+});
+
+/* Card: flip */
+document.querySelectorAll('.d-card-f').forEach(c=>{
+  c.addEventListener('click',function(e){e.stopPropagation();this.classList.toggle('flipped')});
+});
+
+/* Accordion */
+document.querySelectorAll('.d-accordion .ahd').forEach(hd=>{
+  hd.addEventListener('click',function(e){e.stopPropagation();
+    const bd=this.nextElementSibling;
+    if(bd)bd.classList.toggle('show');
+    const arrow=this.querySelector('span:last-child');
+    if(arrow)arrow.textContent=bd.classList.contains('show')?'\u25BC':'\u25B6';
+  });
+});
+
+/* Collapse */
+document.querySelectorAll('.d-collapse .cp-hd').forEach(hd=>{
+  hd.addEventListener('click',function(e){e.stopPropagation();
+    const bd=this.nextElementSibling;
+    if(bd)bd.classList.toggle('show');
+    this.textContent=(bd.classList.contains('show')?'\u25BC':'\u25B6')+' '+this.textContent.slice(2);
+  });
+});
+
+/* Breakpoint: preview width */
+document.querySelectorAll('.d-bp .bp').forEach(bp=>{
+  bp.addEventListener('click',function(e){e.stopPropagation();
+    const demo=this.closest('.term-demo');
+    const preview=demo.querySelector('.bp-preview');
+    this.parentElement.querySelectorAll('.bp').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    const sizes={sm:'360px',md:'480px',lg:'720px',xl:'100%'};
+    const t=this.textContent;
+    if(preview){preview.style.width=sizes[t]||'100%';preview.textContent=t+' ('+(sizes[t]||'100%')+')'}
+  });
+});
+
+/* Table: row highlight */
+document.querySelectorAll('.d-table tr').forEach(tr=>{
+  tr.addEventListener('click',function(e){e.stopPropagation();
+    const tbody=this.parentElement;
+    tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('row-active'));
+    this.classList.add('row-active');
+  });
+});
+
+/* Carousel: arrow + dots */
+document.querySelectorAll('.d-carousel').forEach(car=>{
+  const slides=car.querySelector('.cslides');
+  const dots=car.querySelectorAll('.cdots .dot');
+  const left=car.querySelector('.carrow.left');
+  const right=car.querySelector('.carrow.right');
+  let idx=0,total=dots.length;
+  function goTo(i){
+    idx=((i%total)+total)%total;
+    slides.style.transform='translateX(-'+(idx*100)+'%)';
+    dots.forEach((d,j)=>d.classList.toggle('active',j===idx));
+  }
+  left.addEventListener('click',function(e){e.stopPropagation();goTo(idx-1)});
+  right.addEventListener('click',function(e){e.stopPropagation();goTo(idx+1)});
+  dots.forEach((d,i)=>d.addEventListener('click',function(e){e.stopPropagation();goTo(i)}));
+});
+
+/* Tag: select */
+document.querySelectorAll('.d-tag-grp .tag').forEach(tag=>{
+  tag.addEventListener('click',function(e){e.stopPropagation();this.classList.toggle('selected')});
+});
+
+/* Timeline: expand */
+document.querySelectorAll('.d-timeline .tli').forEach(tli=>{
+  tli.addEventListener('click',function(e){e.stopPropagation();
+    this.classList.toggle('active');
+  });
+});
+
+/* List: select */
+document.querySelectorAll('.d-list-d .li').forEach(li=>{
+  li.addEventListener('click',function(e){e.stopPropagation();
+    this.parentElement.querySelectorAll('.li').forEach(x=>x.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+/* Statistic: roll number */
+document.querySelectorAll('.d-stat').forEach(st=>{
+  st.addEventListener('click',function(e){e.stopPropagation();
+    const sv=this.querySelector('.sv');
+    if(!sv)return;
+    const orig=sv.textContent;
+    const target=Math.floor(Math.random()*50000)+1000;
+    let start=0;const dur=600,step=20;
+    const inc=target/(dur/step);
+    const timer=setInterval(()=>{start+=inc;if(start>=target){sv.textContent=target.toLocaleString();clearInterval(timer)}else{sv.textContent=Math.floor(start).toLocaleString()}},step);
+  });
+});
+
+/* Close popovers/dropdowns on outside click */
+document.addEventListener('click',function(e){
+  document.querySelectorAll('.d-dropdown.open').forEach(dd=>{
+    if(!dd.contains(e.target))dd.classList.remove('open');
+  });
+  document.querySelectorAll('.d-popover-w .pop-card.show').forEach(pc=>{
+    if(!pc.closest('.d-popover-w').contains(e.target))pc.classList.remove('show');
+  });
+  document.querySelectorAll('.btn-fab .fab-menu.show').forEach(m=>{
+    if(!m.closest('.btn-fab').contains(e.target))m.classList.remove('show');
+  });
+  document.querySelectorAll('.d-datepicker .d-calendar.show').forEach(cal=>{
+    if(!cal.closest('.d-datepicker').contains(e.target))cal.classList.remove('show');
+  });
+});
+})();
+</script>
+</body>
+</html>
