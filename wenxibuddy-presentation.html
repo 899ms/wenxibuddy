@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WenXiBuddy - 机关办公全能助手</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================
+   visionOS Glass Design System
+   Inspired by WenXiBuddy's design language
+   =========================================== */
+
+:root {
+  /* Glass Material Tokens */
+  --glass-bg: rgba(255,255,255,0.18);
+  --glass-border: 1px solid rgba(255,255,255,0.28);
+  --glass-blur: blur(40px) saturate(160%);
+  --glass-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.04);
+
+  --thin-bg: rgba(255,255,255,0.22);
+  --thin-border: 1px solid rgba(255,255,255,0.32);
+  --thin-blur: blur(16px) saturate(140%);
+
+  --regular-bg: rgba(255,255,255,0.28);
+  --regular-border: 1px solid rgba(255,255,255,0.35);
+  --regular-blur: blur(24px) saturate(150%);
+
+  --thick-bg: rgba(255,255,255,0.36);
+  --thick-border: 1px solid rgba(255,255,255,0.42);
+
+  /* Accent */
+  --accent: #5f6775;
+  --accent-soft: rgba(95,103,117,0.10);
+  --accent-text: #434852;
+  --accent-hover: #4a515e;
+
+  /* Labels */
+  --label-primary: rgba(0,0,0,0.90);
+  --label-secondary: rgba(0,0,0,0.65);
+  --label-tertiary: rgba(0,0,0,0.45);
+
+  /* Background */
+  --page-bg: #f5f5f7;
+  --page-bg2: #e8e8ed;
+
+  /* Typography */
+  --font-display: 'Noto Serif SC', 'Songti SC', serif;
+  --font-body: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', monospace;
+
+  --title-size: clamp(1.5rem, 5vw, 3.5rem);
+  --h2-size: clamp(1.2rem, 3.5vw, 2.2rem);
+  --h3-size: clamp(1rem, 2.5vw, 1.5rem);
+  --body-size: clamp(0.75rem, 1.5vw, 1.05rem);
+  --small-size: clamp(0.65rem, 1vw, 0.85rem);
+
+  --slide-padding: clamp(1.5rem, 4vw, 4rem);
+  --content-gap: clamp(0.8rem, 2vw, 2rem);
+  --element-gap: clamp(0.4rem, 1vw, 1rem);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.6s;
+}
+
+/* ===========================================
+   VIEWPORT FITTING — from viewport-base.css
+   =========================================== */
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100%;
+  overflow: hidden;
+  padding: var(--slide-padding);
+}
+
+.card, .container, .content-box {
+  max-width: min(90vw, 1000px);
+  max-height: min(80vh, 700px);
+}
+
+.feature-list, .bullet-list {
+  gap: clamp(0.4rem, 1vh, 1rem);
+}
+
+.feature-list li, .bullet-list li {
+  font-size: var(--body-size);
+  line-height: 1.4;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+}
+
+img, .image-container {
+  max-width: 100%;
+  max-height: min(50vh, 400px);
+  object-fit: contain;
+}
+
+@media (max-height: 700px) {
+  :root {
+    --slide-padding: clamp(0.75rem, 3vw, 2rem);
+    --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+    --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+    --h2-size: clamp(1rem, 3vw, 1.75rem);
+  }
+}
+
+@media (max-height: 600px) {
+  :root {
+    --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+    --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+    --title-size: clamp(1.1rem, 4vw, 2rem);
+    --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  }
+  .nav-dots, .keyboard-hint, .decorative { display: none; }
+}
+
+@media (max-height: 500px) {
+  :root {
+    --slide-padding: clamp(0.4rem, 2vw, 1rem);
+    --title-size: clamp(1rem, 3.5vw, 1.5rem);
+    --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+    --body-size: clamp(0.65rem, 1vw, 0.85rem);
+  }
+}
+
+@media (max-width: 600px) {
+  :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.2s !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ===========================================
+   BASE STYLES
+   =========================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(145deg, var(--page-bg), var(--page-bg2));
+  color: var(--label-primary);
+  position: relative;
+}
+
+/* Ambient background orbs — from WenXiBuddy */
+.space-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+.orb-1 {
+  width: min(50vw, 600px); height: min(50vw, 600px);
+  background: radial-gradient(circle, rgba(95,103,117,0.12) 0%, transparent 70%);
+  top: -20%; left: -10%;
+  animation: orbFloat1 12s ease-in-out infinite;
+}
+.orb-2 {
+  width: min(40vw, 450px); height: min(40vw, 450px);
+  background: radial-gradient(circle, rgba(130,140,160,0.10) 0%, transparent 70%);
+  bottom: -15%; right: -8%;
+  animation: orbFloat2 10s ease-in-out infinite;
+}
+.orb-3 {
+  width: min(35vw, 350px); height: min(35vw, 350px);
+  background: radial-gradient(circle, rgba(100,110,130,0.08) 0%, transparent 70%);
+  top: 50%; left: 60%;
+  animation: orbFloat3 14s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-15px, 15px) scale(0.95); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-25px, -15px) scale(0.95); }
+  66% { transform: translate(20px, 10px) scale(1.05); }
+}
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, 25px) scale(1.08); }
+}
+
+/* ===========================================
+   GLASS CARDS
+   =========================================== */
+
+.glass-card {
+  background: var(--regular-bg);
+  backdrop-filter: var(--regular-blur);
+  -webkit-backdrop-filter: var(--regular-blur);
+  border: var(--regular-border);
+  border-radius: clamp(12px, 2vw, 20px);
+  box-shadow: var(--glass-shadow);
+  padding: clamp(16px, 2.5vw, 32px);
+}
+
+.glass-card.thin {
+  background: var(--thin-bg);
+  backdrop-filter: var(--thin-blur);
+  -webkit-backdrop-filter: var(--thin-blur);
+  border: var(--thin-border);
+}
+
+.glass-card.thick {
+  background: var(--thick-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: var(--thick-border);
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--duration) var(--ease-out-expo),
+              transform var(--duration) var(--ease-out-expo);
+}
+
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+
+.reveal:nth-child(1) { transition-delay: 0.05s; }
+.reveal:nth-child(2) { transition-delay: 0.12s; }
+.reveal:nth-child(3) { transition-delay: 0.19s; }
+.reveal:nth-child(4) { transition-delay: 0.26s; }
+.reveal:nth-child(5) { transition-delay: 0.33s; }
+.reveal:nth-child(6) { transition-delay: 0.40s; }
+.reveal:nth-child(7) { transition-delay: 0.47s; }
+.reveal:nth-child(8) { transition-delay: 0.54s; }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.6s var(--ease-out-expo),
+              transform 0.6s var(--ease-out-expo);
+}
+.slide.visible .reveal-left { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.5s var(--ease-out-expo),
+              transform 0.5s var(--ease-out-expo);
+}
+.slide.visible .reveal-scale { opacity: 1; transform: scale(1); }
+
+/* ===========================================
+   SLIDE LAYOUTS
+   =========================================== */
+
+/* Title slide */
+.title-slide { align-items: center; justify-content: center; text-align: center; }
+.title-slide .slide-content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.title-main {
+  font-family: var(--font-display);
+  font-size: var(--title-size);
+  font-weight: 700;
+  color: var(--label-primary);
+  letter-spacing: 0.02em;
+}
+.title-sub {
+  font-family: var(--font-body);
+  font-size: var(--h3-size);
+  font-weight: 400;
+  color: var(--label-secondary);
+  margin-top: clamp(8px, 2vh, 20px);
+  letter-spacing: 0.04em;
+}
+.title-tagline {
+  font-size: var(--small-size);
+  color: var(--label-tertiary);
+  margin-top: clamp(20px, 4vh, 40px);
+  font-family: var(--font-mono);
+}
+
+/* Section intro — large number */
+.section-number {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  color: var(--accent-soft);
+  line-height: 1;
+  opacity: 0.4;
+}
+.section-label {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  font-weight: 500;
+  color: var(--accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Feature grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2vw, 24px);
+  max-width: min(90vw, 1000px);
+  width: 100%;
+  margin: 0 auto;
+}
+.feature-item {
+  background: var(--thin-bg);
+  backdrop-filter: var(--thin-blur);
+  -webkit-backdrop-filter: var(--thin-blur);
+  border: var(--thin-border);
+  border-radius: clamp(10px, 1.5vw, 16px);
+  padding: clamp(14px, 2vw, 24px);
+  text-align: center;
+}
+.feature-icon {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(6px, 1vh, 12px);
+}
+.feature-title {
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
+  font-weight: 600;
+  color: var(--label-primary);
+  margin-bottom: 4px;
+}
+.feature-desc {
+  font-size: var(--small-size);
+  color: var(--label-tertiary);
+  line-height: 1.5;
+}
+
+/* Two column layout */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: center;
+  max-width: min(90vw, 1000px);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Bullet list */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(8px, 1.5vw, 14px);
+  font-size: var(--body-size);
+  color: var(--label-primary);
+  padding: clamp(6px, 1vh, 10px) 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.bullet-list li:last-child { border-bottom: none; }
+.bullet-dot {
+  width: clamp(6px, 0.8vw, 8px);
+  height: clamp(6px, 0.8vw, 8px);
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: clamp(5px, 0.7vh, 7px);
+}
+
+/* Slide header */
+.slide-header {
+  text-align: center;
+  margin-bottom: clamp(16px, 3vh, 32px);
+}
+.slide-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size);
+  font-weight: 700;
+  color: var(--label-primary);
+}
+.slide-header p {
+  font-size: var(--small-size);
+  color: var(--label-tertiary);
+  margin-top: 6px;
+}
+
+/* Accent chip */
+.accent-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  border-radius: 20px;
+  font-size: var(--small-size);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* Code block */
+.code-block {
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  padding: clamp(12px, 2vw, 20px);
+  font-family: var(--font-mono);
+  font-size: var(--small-size);
+  color: var(--label-primary);
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.code-block .comment { color: var(--label-tertiary); }
+.code-block .key { color: var(--accent-text); font-weight: 600; }
+
+/* Progress bar */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+/* Navigation dots */
+.nav-dots {
+  position: fixed;
+  right: clamp(10px, 2vw, 24px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.nav-dot.active {
+  background: var(--accent);
+  transform: scale(1.4);
+}
+
+/* Keyboard hint */
+.keyboard-hint {
+  position: fixed;
+  bottom: clamp(12px, 2vh, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: var(--label-tertiary);
+  z-index: 100;
+  display: flex;
+  gap: 12px;
+}
+.key-hint {
+  background: rgba(0,0,0,0.06);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Tech stack list */
+.tech-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(8px, 1.5vw, 16px);
+  max-width: min(85vw, 700px);
+  margin: 0 auto;
+  width: 100%;
+}
+.tech-item {
+  background: var(--thin-bg);
+  backdrop-filter: var(--thin-blur);
+  -webkit-backdrop-filter: var(--thin-blur);
+  border: var(--thin-border);
+  border-radius: 12px;
+  padding: clamp(10px, 1.5vw, 18px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tech-icon {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  width: clamp(32px, 4vw, 44px);
+  height: clamp(32px, 4vw, 44px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.tech-name {
+  font-weight: 600;
+  font-size: var(--body-size);
+  color: var(--label-primary);
+}
+.tech-desc {
+  font-size: var(--small-size);
+  color: var(--label-tertiary);
+  margin-top: 2px;
+}
+
+/* Color token display */
+.color-token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: clamp(8px, 1.5vw, 14px);
+}
+.color-token {
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--thin-bg);
+  backdrop-filter: var(--thin-blur);
+  -webkit-backdrop-filter: var(--thin-blur);
+  border: var(--thin-border);
+}
+.color-token .swatch {
+  height: clamp(40px, 6vh, 60px);
+}
+.color-token .info {
+  padding: 8px 12px;
+}
+.color-token .info .name {
+  font-size: var(--small-size);
+  font-weight: 600;
+  color: var(--label-primary);
+}
+.color-token .info .value {
+  font-size: 10px;
+  color: var(--label-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* Thank you slide */
+.thank-you-slide {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.thank-you-icon {
+  font-size: clamp(3rem, 6vw, 5rem);
+  margin-bottom: clamp(12px, 2vh, 24px);
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient background orbs -->
+<div class="space-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- Keyboard hints -->
+<div class="keyboard-hint">
+  <span class="key-hint">← →</span> 切换
+  <span class="key-hint">Space</span> 下一页
+</div>
+
+<!-- ============================================
+     SLIDE 1 — Title
+     ============================================ -->
+<section class="slide title-slide">
+  <div class="slide-content">
+    <div class="reveal" style="margin-bottom:clamp(8px,1.5vh,14px);">
+      <span class="accent-chip">机关办公全能助手</span>
+    </div>
+    <h1 class="title-main reveal">WenXiBuddy</h1>
+    <p class="title-sub reveal">visionOS Glass Design · 8 大功能模块 · AI 智能加持</p>
+    <p class="title-tagline reveal">单文件 HTML · 纯前端 · 本地存储 · 零依赖</p>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 2 — 项目概览
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">概览</span>
+      <h2>WenXiBuddy 是什么？</h2>
+    </div>
+    <div class="two-col reveal">
+      <div>
+        <p style="font-size:var(--body-size);color:var(--label-secondary);line-height:1.8;margin-bottom:clamp(10px,2vh,20px);">
+          面向机关单位的一站式办公管理工具，将<strong style="color:var(--accent-text);">任务管理、会议管理、文件收发、外出活动、用章管理、物资收发、工作统计、周报生成</strong>八类高频业务集成于一个网页。
+        </p>
+        <ul class="bullet-list">
+          <li><span class="bullet-dot"></span> 单文件 HTML，无需安装，浏览器即用</li>
+          <li><span class="bullet-dot"></span> visionOS 玻璃质感设计语言</li>
+          <li><span class="bullet-dot"></span> 本地 IndexedDB + localStorage 持久化</li>
+          <li><span class="bullet-dot"></span> 接入大模型 AI 辅助周报撰写</li>
+        </ul>
+      </div>
+      <div class="glass-card thick" style="text-align:center;">
+        <div style="font-size:clamp(2rem,4vw,3rem);margin-bottom:12px;">📋</div>
+        <div style="font-size:var(--body-size);color:var(--label-secondary);">539 KB · 12698 行</div>
+        <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">v07.22 最新版本</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 3 — Design System
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">设计体系</span>
+      <h2>visionOS Glass Design System</h2>
+      <p>多层次玻璃材质 · CSS 自定义属性驱动 · 深浅主题双模式</p>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,900px);margin:0 auto;width:100%;">
+      <div class="color-token-grid">
+        <div class="color-token">
+          <div class="swatch" style="background:rgba(255,255,255,0.18);border-bottom:1px solid rgba(0,0,0,0.06);"></div>
+          <div class="info"><div class="name">Liquid Glass</div><div class="value">rgba(255,255,255,0.18)</div></div>
+        </div>
+        <div class="color-token">
+          <div class="swatch" style="background:rgba(255,255,255,0.22);border-bottom:1px solid rgba(0,0,0,0.06);"></div>
+          <div class="info"><div class="name">Thin</div><div class="value">rgba(255,255,255,0.22)</div></div>
+        </div>
+        <div class="color-token">
+          <div class="swatch" style="background:rgba(255,255,255,0.28);border-bottom:1px solid rgba(0,0,0,0.06);"></div>
+          <div class="info"><div class="name">Regular</div><div class="value">rgba(255,255,255,0.28)</div></div>
+        </div>
+        <div class="color-token">
+          <div class="swatch" style="background:rgba(255,255,255,0.36);border-bottom:1px solid rgba(0,0,0,0.06);"></div>
+          <div class="info"><div class="name">Thick</div><div class="value">rgba(255,255,255,0.36)</div></div>
+        </div>
+        <div class="color-token">
+          <div class="swatch" style="background:#5f6775;"></div>
+          <div class="info"><div class="name">Accent</div><div class="value">#5f6775</div></div>
+        </div>
+        <div class="color-token">
+          <div class="swatch" style="background:rgba(0,0,0,0.90);"></div>
+          <div class="info"><div class="name">Label Primary</div><div class="value">rgba(0,0,0,0.90)</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="reveal" style="text-align:center;margin-top:clamp(12px,2vh,20px);font-size:var(--small-size);color:var(--label-tertiary);">
+      blur(16~40px) + saturate(140~160%) · 四层透明度阶梯 · 统一阴影规范
+    </p>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 4 — 三栏布局
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">界面架构</span>
+      <h2>三栏可拖拽 Grid 布局</h2>
+      <p>左侧导航 · 中间内容 · 右侧详情 — 自由调整宽度</p>
+    </div>
+    <div class="reveal" style="max-width:min(90vw,900px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 4px 2fr 4px 1.2fr;gap:0;background:var(--thin-bg);backdrop-filter:var(--thin-blur);-webkit-backdrop-filter:var(--thin-blur);border:var(--thin-border);border-radius:16px;overflow:hidden;height:clamp(200px,35vh,320px);">
+        <div style="display:flex;align-items:center;justify-content:center;font-size:var(--small-size);color:var(--label-tertiary);padding:12px;text-align:center;">左侧栏<br>导航 + 筛选<br>300px</div>
+        <div style="background:var(--accent);opacity:0.3;"></div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:var(--small-size);color:var(--label-secondary);padding:12px;text-align:center;background:rgba(255,255,255,0.08);">中间栏<br>列表 + 表单 + 编辑器<br>自适应</div>
+        <div style="background:var(--accent);opacity:0.3;"></div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:var(--small-size);color:var(--label-tertiary);padding:12px;text-align:center;">右侧栏<br>详情 + 汇报<br>480px</div>
+      </div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:clamp(10px,1.5vh,16px);">
+      <p style="font-size:var(--small-size);color:var(--label-tertiary);">支持拖拽手柄调整栏宽 · 面板折叠/展开 · 右侧全屏模式</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 5 — 八大模块导航
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">功能总览</span>
+      <h2>8 大功能模块</h2>
+    </div>
+    <div class="feature-grid reveal">
+      <div class="feature-item"><div class="feature-icon">📋</div><div class="feature-title">任务管理</div><div class="feature-desc">全生命周期跟踪</div></div>
+      <div class="feature-item"><div class="feature-icon">📅</div><div class="feature-title">会议管理</div><div class="feature-desc">会议记录与追踪</div></div>
+      <div class="feature-item"><div class="feature-icon">📄</div><div class="feature-title">文件收发</div><div class="feature-desc">文档流转管理</div></div>
+      <div class="feature-item"><div class="feature-icon">🚗</div><div class="feature-title">外出活动</div><div class="feature-desc">外出记录管理</div></div>
+      <div class="feature-item"><div class="feature-icon">🏛️</div><div class="feature-title">用章管理</div><div class="feature-desc">印章使用登记</div></div>
+      <div class="feature-item"><div class="feature-icon">📦</div><div class="feature-title">物资收发</div><div class="feature-desc">物资出入库管理</div></div>
+      <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-title">工作统计</div><div class="feature-desc">多维度数据看板</div></div>
+      <div class="feature-item"><div class="feature-icon">📝</div><div class="feature-title">周报生成</div><div class="feature-desc">AI 智能撰写</div></div>
+      <div class="feature-item" style="background:var(--accent-soft);">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">一键切换</div>
+        <div class="feature-desc">侧栏导航无缝跳转</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 6 — 任务管理
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 1/8</span>
+      <h2>任务管理 — 全生命周期管控</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 状态流转：未启动 → 进行中 → 已完成 / 已超期</li>
+        <li><span class="bullet-dot"></span> 阶段化管理：支持任务拆分多个阶段，逐阶段推进</li>
+        <li><span class="bullet-dot"></span> 多维筛选：状态 / 交办人 / 关键词 / 类目标签</li>
+        <li><span class="bullet-dot"></span> 完成确认：记录产出资料，上传附件归档</li>
+        <li><span class="bullet-dot"></span> 智能导入：支持粘贴文本批量导入任务</li>
+        <li><span class="bullet-dot"></span> 类目体系：自定义一级/二级类目 + 颜色标记</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="display:flex;justify-content:center;gap:clamp(6px,1vw,12px);margin-bottom:12px;flex-wrap:wrap;">
+          <span style="padding:4px 10px;border-radius:12px;font-size:11px;background:rgba(0,0,0,0.06);color:var(--label-tertiary);">未启动</span>
+          <span style="padding:4px 10px;border-radius:12px;font-size:11px;background:rgba(52,199,89,0.12);color:#34c759;">进行中</span>
+          <span style="padding:4px 10px;border-radius:12px;font-size:11px;background:rgba(95,103,117,0.12);color:var(--accent-text);">已完成</span>
+          <span style="padding:4px 10px;border-radius:12px;font-size:11px;background:rgba(255,69,58,0.08);color:#ff453a;">已超期</span>
+        </div>
+        <div style="font-size:var(--small-size);color:var(--label-tertiary);">四态流转 + 超期自动标记</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 7 — 任务筛选与搜索
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 1/8 续</span>
+      <h2>任务筛选 — 精准定位</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,850px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,24px);">
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:10px;">筛选维度</p>
+          <ul class="bullet-list">
+            <li><span class="bullet-dot"></span> 状态筛选：全部 / 未启动 / 进行中 / 已完成 / 超期</li>
+            <li><span class="bullet-dot"></span> 交办人筛选：动态读取已配置交办人列表</li>
+            <li><span class="bullet-dot"></span> 关键词搜索：实时过滤任务名称与内容</li>
+            <li><span class="bullet-dot"></span> 类目筛选：按自定义一级/二级类目分类查看</li>
+            <li><span class="bullet-dot"></span> 标签筛选：支持多标签组合过滤</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:10px;">类目管理</p>
+          <ul class="bullet-list">
+            <li><span class="bullet-dot"></span> 自定义一级/二级类目名称</li>
+            <li><span class="bullet-dot"></span> 每个类目可绑定颜色标识</li>
+            <li><span class="bullet-dot"></span> 类目标签在任务卡片上可视化展示</li>
+            <li><span class="bullet-dot"></span> 支持类目增删改查，即时生效</li>
+            <li><span class="bullet-dot"></span> 会话级记忆当前选中类目</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 8 — 会议管理
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 2/8</span>
+      <h2>会议管理 — 记录与追踪</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 新建会议记录：名称 / 时间 / 地点 / 参会人员</li>
+        <li><span class="bullet-dot"></span> 会议列表展示：卡片式布局，按时间排序</li>
+        <li><span class="bullet-dot"></span> 搜索过滤：支持关键词搜索会议</li>
+        <li><span class="bullet-dot"></span> 详情查看：右侧面板展示完整会议信息</li>
+        <li><span class="bullet-dot"></span> 编辑/删除：支持记录修改和删除（倒计时确认）</li>
+        <li><span class="bullet-dot"></span> 结构化存储：JSON 格式存入 localStorage</li>
+      </ul>
+      <div class="glass-card thin">
+        <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">会议记录字段</p>
+        <div class="code-block">
+          <span class="key">名称</span> <span class="comment">// 会议主题</span><br>
+          <span class="key">时间</span> <span class="comment">// 日期时间</span><br>
+          <span class="key">地点</span> <span class="comment">// 会议室/线上</span><br>
+          <span class="key">参会人员</span> <span class="comment">// 文本列表</span><br>
+          <span class="key">备注</span> <span class="comment">// 会议纪要</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 9 — 文件收发
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 3/8</span>
+      <h2>文件收发 — 文档流转管理</h2>
+    </div>
+    <div class="two-col reveal">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="bullet-dot"></span> 文件名称 / 类型 / 来文单位 / 收文日期</li>
+          <li><span class="bullet-dot"></span> 状态标记：待处理 / 已处理 / 已归档</li>
+          <li><span class="bullet-dot"></span> 附件上传：支持拖拽上传多种格式文件</li>
+          <li><span class="bullet-dot"></span> 文件预览：图片 / PDF / Office 在线预览</li>
+          <li><span class="bullet-dot"></span> 大图浏览：图片画廊模式，支持键盘导航</li>
+        </ul>
+      </div>
+      <div class="glass-card thin">
+        <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">附件能力</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">拖拽上传</span>
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">图片画廊</span>
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">PDF 预览</span>
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">Word 渲染</span>
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">Base64 存储</span>
+          <span style="padding:3px 8px;background:var(--accent-soft);border-radius:6px;font-size:11px;">文件图标</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 10 — 外出活动
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 4/8</span>
+      <h2>外出活动 — 行程记录管理</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 活动名称 / 地点 / 开始时间 / 结束时间</li>
+        <li><span class="bullet-dot"></span> 参与人员记录</li>
+        <li><span class="bullet-dot"></span> 备注与附件支持</li>
+        <li><span class="bullet-dot"></span> 列表搜索与筛选</li>
+        <li><span class="bullet-dot"></span> 时间线视图展示</li>
+        <li><span class="bullet-dot"></span> 配合单位关联</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="font-size:clamp(1.5rem,3vw,2.5rem);margin-bottom:8px;">🚗</div>
+        <p style="font-size:var(--body-size);color:var(--label-secondary);">外出活动记录</p>
+        <p style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">与任务管理共享类目体系</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 11 — 用章管理
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 5/8</span>
+      <h2>用章管理 — 印章使用登记</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 用章日期 / 文件名称 / 用章类型</li>
+        <li><span class="bullet-dot"></span> 申请部门 / 经办人 / 批准人</li>
+        <li><span class="bullet-dot"></span> 用章事由备注</li>
+        <li><span class="bullet-dot"></span> 支持附件上传留存</li>
+        <li><span class="bullet-dot"></span> 用章记录搜索与筛选</li>
+        <li><span class="bullet-dot"></span> 结构化表格展示</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="font-size:clamp(1.5rem,3vw,2.5rem);margin-bottom:8px;">🏛️</div>
+        <p style="font-size:var(--body-size);color:var(--label-secondary);">合规用章登记</p>
+        <p style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">审批流程电子化记录</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 12 — 物资收发
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 6/8</span>
+      <h2>物资收发 — 出入库管理</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 物资名称 / 规格 / 数量 / 单位</li>
+        <li><span class="bullet-dot"></span> 收发类型：入库 / 出库</li>
+        <li><span class="bullet-dot"></span> 收发日期 / 经办人</li>
+        <li><span class="bullet-dot"></span> 来源单位 / 去向单位</li>
+        <li><span class="bullet-dot"></span> 备注说明与附件</li>
+        <li><span class="bullet-dot"></span> 搜索与列表筛选</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="display:flex;justify-content:center;gap:16px;margin-bottom:12px;">
+          <span style="font-size:clamp(0.7rem,1vw,0.9rem);padding:4px 12px;border-radius:8px;background:rgba(52,199,89,0.12);color:#34c759;">入库</span>
+          <span style="font-size:clamp(0.7rem,1vw,0.9rem);padding:4px 12px;border-radius:8px;background:rgba(255,159,10,0.12);color:#ff9f0a;">出库</span>
+        </div>
+        <div style="font-size:var(--small-size);color:var(--label-tertiary);">双向流转记录</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 13 — 工作统计
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 7/8</span>
+      <h2>工作统计 — 多维度数据看板</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 按月统计：选择月份 + 类目生成统计</li>
+        <li><span class="bullet-dot"></span> 类目维度：按一级/二级类目聚合数据</li>
+        <li><span class="bullet-dot"></span> 指标统计：任务数 / 完成数 / 完成率 / 超期数</li>
+        <li><span class="bullet-dot"></span> 配合单位统计：各单位承担任务量</li>
+        <li><span class="bullet-dot"></span> 可视化：类目占比统计卡片</li>
+        <li><span class="bullet-dot"></span> 一键生成：选择月份后即时计算</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:8px;">📊</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="padding:8px;background:var(--accent-soft);border-radius:8px;">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--accent-text);">24</div>
+            <div style="font-size:10px;color:var(--label-tertiary);">总任务</div>
+          </div>
+          <div style="padding:8px;background:rgba(52,199,89,0.1);border-radius:8px;">
+            <div style="font-size:1.5rem;font-weight:700;color:#34c759;">85%</div>
+            <div style="font-size:10px;color:var(--label-tertiary);">完成率</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 14 — 周报生成
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">模块详解 8/8</span>
+      <h2>周报生成 — AI 智能撰写</h2>
+      <p>从数据汇总到 AI 润色，一站式周报生产流水线</p>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 日期范围选择 + 类目筛选，自动汇总任务数据</li>
+        <li><span class="bullet-dot"></span> 公文写作 Skill 体系：导入 / 编辑 / 管理</li>
+        <li><span class="bullet-dot"></span> 多风格变体引擎：S1~S6 自动轮换</li>
+        <li><span class="bullet-dot"></span> AI 润色全文 / 润色选中，撤销/恢复</li>
+        <li><span class="bullet-dot"></span> 模板系统：范文提取 + JSON 编辑</li>
+        <li><span class="bullet-dot"></span> 导出 Word (docx) 格式</li>
+      </ul>
+      <div class="glass-card thin">
+        <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">Skill 风格变体</p>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;">
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(52,199,89,0.1);">S1 数据驱动</span>
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(255,159,10,0.1);">S2 问题导向</span>
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(175,82,222,0.1);">S3 成果清单</span>
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(0,122,255,0.1);">S4 故事叙事</span>
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(52,199,89,0.15);">S5 高位对标</span>
+          <span style="padding:2px 8px;border-radius:8px;font-size:10px;background:rgba(255,59,48,0.1);">S6 精要速报</span>
+        </div>
+        <p style="font-size:10px;color:var(--label-tertiary);margin-top:10px;">自动轮换，每篇风格不同</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 15 — 周报模板系统
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">周报深度</span>
+      <h2>模板系统 — 范文提取 + JSON 编辑</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,850px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.5vw,32px);">
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:10px;">从范文提取</p>
+          <p style="font-size:var(--small-size);color:var(--label-secondary);line-height:1.6;">
+            粘贴优质范文 → AI 自动分析章节结构、段落逻辑和行文风格 → 提炼为可复用模板骨架 → 一键应用
+          </p>
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:10px;">JSON 编辑</p>
+          <p style="font-size:var(--small-size);color:var(--label-secondary);line-height:1.6;">
+            直接编辑 JSON 模板定义 → 自定义章节标题、字段映射、数据填充逻辑 → 保存模板 → 导入/导出/恢复默认
+          </p>
+        </div>
+      </div>
+      <div style="margin-top:clamp(12px,2vh,20px);text-align:center;">
+        <p style="font-size:var(--small-size);color:var(--label-tertiary);">编辑区域：仿宋字体 · 16pt 公文标准字号 · contenteditable 实时编辑</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 16 — 右侧详情面板
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">界面交互</span>
+      <h2>右侧详情面板 — 信息中枢</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 选中列表项自动加载详情</li>
+        <li><span class="bullet-dot"></span> 左侧：任务详情（全部字段展示）</li>
+        <li><span class="bullet-dot"></span> 右侧：汇报生成（配合单位进度汇总）</li>
+        <li><span class="bullet-dot"></span> 全屏展开模式</li>
+        <li><span class="bullet-dot"></span> 编辑 / 关闭快捷按钮</li>
+        <li><span class="bullet-dot"></span> 配合单位卡片：进度 / 状态 / 附件</li>
+      </ul>
+      <div class="glass-card thin" style="text-align:center;">
+        <div style="font-size:clamp(1rem,2vw,1.5rem);margin-bottom:8px;">📋 → 详情</div>
+        <div style="display:flex;gap:4px;justify-content:center;">
+          <div style="width:40%;padding:12px 8px;background:rgba(0,0,0,0.03);border-radius:8px;font-size:10px;color:var(--label-tertiary);">任务详情</div>
+          <div style="width:40%;padding:12px 8px;background:var(--accent-soft);border-radius:8px;font-size:10px;color:var(--accent-text);">汇报生成</div>
+        </div>
+        <div style="font-size:10px;color:var(--label-tertiary);margin-top:8px;">双栏布局 · 一键全屏</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 17 — 任务阶段流转
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">核心机制</span>
+      <h2>任务阶段流转 — 精细化过程管理</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,900px);margin:0 auto;width:100%;text-align:center;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,16px);flex-wrap:wrap;padding:clamp(10px,2vh,20px);">
+        <div class="glass-card thin" style="text-align:center;min-width:80px;">
+          <div style="font-size:1.5rem;">📝</div>
+          <div style="font-size:11px;font-weight:600;margin-top:4px;">未启动</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--label-tertiary);">→</div>
+        <div class="glass-card thin" style="text-align:center;min-width:80px;">
+          <div style="font-size:1.5rem;">🚀</div>
+          <div style="font-size:11px;font-weight:600;margin-top:4px;">阶段 1</div>
+          <div style="font-size:9px;color:var(--label-tertiary);">截止日期</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--label-tertiary);">→</div>
+        <div class="glass-card thin" style="text-align:center;min-width:80px;">
+          <div style="font-size:1.5rem;">🚀</div>
+          <div style="font-size:11px;font-weight:600;margin-top:4px;">阶段 N</div>
+          <div style="font-size:9px;color:var(--label-tertiary);">可调整单位</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--label-tertiary);">→</div>
+        <div class="glass-card" style="text-align:center;min-width:80px;background:rgba(52,199,89,0.1);border-color:rgba(52,199,89,0.2);">
+          <div style="font-size:1.5rem;">✅</div>
+          <div style="font-size:11px;font-weight:600;margin-top:4px;">已完成</div>
+        </div>
+      </div>
+      <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:clamp(8px,1.5vh,16px);">
+        开启下一阶段弹窗 · 截止时间设置 · 配合单位调整 · 产出资料上传
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 18 — 附件与文件管理
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">文件系统</span>
+      <h2>附件存储 — 双层持久化方案</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 小文件：Base64 编码存入 localStorage</li>
+        <li><span class="bullet-dot"></span> 大文件：IndexedDB 存储二进制 Blob</li>
+        <li><span class="bullet-dot"></span> 本地文件夹：选择目录分散存储附件</li>
+        <li><span class="bullet-dot"></span> 拖拽上传 + 点击上传双通道</li>
+        <li><span class="bullet-dot"></span> 图片画廊：全屏浏览 + 键盘导航</li>
+        <li><span class="bullet-dot"></span> Office 文档预览：Word/PDF 在线渲染</li>
+      </ul>
+      <div class="glass-card thin">
+        <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">存储架构</p>
+        <div class="code-block" style="font-size:10px;">
+          <span class="comment">// 小文件</span><br>
+          localStorage → base64<br>
+          <span class="comment">// 大文件</span><br>
+          IndexedDB → Blob<br>
+          <span class="comment">// 外部存储</span><br>
+          AttachStorage → 本地目录
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 19 — AI 大模型集成
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">AI 集成</span>
+      <h2>大模型连接配置</h2>
+    </div>
+    <div class="two-col reveal">
+      <ul class="bullet-list">
+        <li><span class="bullet-dot"></span> 兼容 OpenAI 标准 API 协议</li>
+        <li><span class="bullet-dot"></span> 支持 DeepSeek / 智谱 GLM / SiliconFlow 等</li>
+        <li><span class="bullet-dot"></span> API 地址 + API Key 配置弹窗</li>
+        <li><span class="bullet-dot"></span> 连接测试：一键检测连通性</li>
+        <li><span class="bullet-dot"></span> 多配置管理：新增 / 切换 / 删除</li>
+        <li><span class="bullet-dot"></span> 本地 IndexedDB 存储，不上传服务器</li>
+      </ul>
+      <div class="glass-card thin">
+        <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">支持平台</p>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <span style="font-size:11px;padding:6px 10px;background:var(--accent-soft);border-radius:6px;">DeepSeek — api.deepseek.com</span>
+          <span style="font-size:11px;padding:6px 10px;background:var(--accent-soft);border-radius:6px;">智谱 GLM — open.bigmodel.cn</span>
+          <span style="font-size:11px;padding:6px 10px;background:var(--accent-soft);border-radius:6px;">SiliconFlow — cloud.siliconflow.cn</span>
+          <span style="font-size:11px;padding:6px 10px;background:var(--accent-soft);border-radius:6px;">任何 OpenAI 兼容接口</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 20 — 深浅主题切换
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">视觉体验</span>
+      <h2>深浅主题 — 一键切换</h2>
+    </div>
+    <div class="reveal" style="max-width:min(90vw,850px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,32px);">
+        <div class="glass-card" style="text-align:center;background:#ffffff;">
+          <div style="font-size:2rem;margin-bottom:8px;">☀️</div>
+          <div style="font-weight:600;font-size:var(--body-size);">浅色模式</div>
+          <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">白色玻璃基底层</div>
+          <div style="margin-top:10px;display:flex;gap:4px;justify-content:center;">
+            <div style="width:20px;height:20px;background:#f5f5f7;border-radius:4px;"></div>
+            <div style="width:20px;height:20px;background:#ffffff;border-radius:4px;border:1px solid #e0e0e0;"></div>
+            <div style="width:20px;height:20px;background:#5f6775;border-radius:4px;"></div>
+          </div>
+        </div>
+        <div class="glass-card" style="text-align:center;background:#1c1c1e;">
+          <div style="font-size:2rem;margin-bottom:8px;">🌙</div>
+          <div style="font-weight:600;font-size:var(--body-size);color:rgba(255,255,255,0.9);">深色模式</div>
+          <div style="font-size:var(--small-size);color:rgba(255,255,255,0.45);margin-top:4px;">暗色玻璃基底层</div>
+          <div style="margin-top:10px;display:flex;gap:4px;justify-content:center;">
+            <div style="width:20px;height:20px;background:#1c1c1e;border-radius:4px;"></div>
+            <div style="width:20px;height:20px;background:#2c2c2e;border-radius:4px;"></div>
+            <div style="width:20px;height:20px;background:#5f6775;border-radius:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:clamp(10px,2vh,20px);">
+        <p style="font-size:var(--small-size);color:var(--label-tertiary);">localStorage 持久化主题选择 · 全局 CSS 变量一键切换 · 60+ 暗色适配规则</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 21 — 数据持久化
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">数据架构</span>
+      <h2>数据持久化 — 多层存储体系</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,850px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,20px);">
+        <div style="text-align:center;padding:clamp(10px,2vh,20px);">
+          <div style="font-size:2rem;">💾</div>
+          <div style="font-weight:600;font-size:var(--body-size);margin-top:8px;">localStorage</div>
+          <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">结构化业务数据<br>任务/会议/文件等 JSON<br>类目/配合同伴/过滤参数<br>主题偏好设置</div>
+        </div>
+        <div style="text-align:center;padding:clamp(10px,2vh,20px);">
+          <div style="font-size:2rem;">🗄️</div>
+          <div style="font-weight:600;font-size:var(--body-size);margin-top:8px;">IndexedDB</div>
+          <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">大文件二进制存储<br>附件 Blob 持久化<br>大模型配置管理<br>结构化键值对</div>
+        </div>
+        <div style="text-align:center;padding:clamp(10px,2vh,20px);">
+          <div style="font-size:2rem;">📁</div>
+          <div style="font-weight:600;font-size:var(--body-size);margin-top:8px;">AttachStorage</div>
+          <div style="font-size:var(--small-size);color:var(--label-tertiary);margin-top:4px;">外部目录存储<br>用户可选本地文件夹<br>分散存储大附件<br>降低浏览器存储压力</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 22 — 数据迁移
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">数据管理</span>
+      <h2>数据迁移 — 导入/导出/备份</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,700px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.5vw,30px);">
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">📤 数据导出</p>
+          <ul class="bullet-list">
+            <li><span class="bullet-dot"></span> 全量数据 JSON 导出</li>
+            <li><span class="bullet-dot"></span> 类目 + 任务 + 附件全部打包</li>
+            <li><span class="bullet-dot"></span> 一键下载 JSON 文件</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:var(--body-size);margin-bottom:8px;">📥 数据导入</p>
+          <ul class="bullet-list">
+            <li><span class="bullet-dot"></span> 选择 JSON 文件导入</li>
+            <li><span class="bullet-dot"></span> 类目/任务/附件完整还原</li>
+            <li><span class="bullet-dot"></span> 支持跨设备迁移</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:clamp(12px,2vh,20px);text-align:center;">
+        <div style="display:flex;gap:8px;justify-content:center;align-items:center;">
+          <span style="padding:4px 12px;background:var(--accent-soft);border-radius:8px;font-size:11px;">浏览器 A</span>
+          <span style="color:var(--accent-text);font-size:1.2rem;">→</span>
+          <span style="padding:4px 12px;background:var(--accent-soft);border-radius:8px;font-size:11px;">JSON 文件</span>
+          <span style="color:var(--accent-text);font-size:1.2rem;">→</span>
+          <span style="padding:4px 12px;background:var(--accent-soft);border-radius:8px;font-size:11px;">浏览器 B</span>
+        </div>
+        <p style="font-size:10px;color:var(--label-tertiary);margin-top:8px;">含倒计时确认的安全删除机制 · 删除保护 3 秒确认</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 23 — 响应式设计
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">移动适配</span>
+      <h2>窄屏适配 — 移动端可用</h2>
+    </div>
+    <div class="glass-card reveal" style="max-width:min(90vw,800px);margin:0 auto;width:100%;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.5vw,20px);">
+        <div style="text-align:center;padding:clamp(8px,1.5vh,16px);">
+          <div style="font-size:1.5rem;margin-bottom:6px;">☰</div>
+          <div style="font-weight:600;font-size:var(--small-size);">窄屏菜单</div>
+          <div style="font-size:10px;color:var(--label-tertiary);margin-top:4px;">抽屉式侧栏<br>遮罩层覆盖<br>点击关闭</div>
+        </div>
+        <div style="text-align:center;padding:clamp(8px,1.5vh,16px);">
+          <div style="font-size:1.5rem;margin-bottom:6px;">📱</div>
+          <div style="font-weight:600;font-size:var(--small-size);">详情覆盖</div>
+          <div style="font-size:10px;color:var(--label-tertiary);margin-top:4px;">中间栏全宽<br>详情内嵌<br>返回按钮</div>
+        </div>
+        <div style="text-align:center;padding:clamp(8px,1.5vh,16px);">
+          <div style="font-size:1.5rem;margin-bottom:6px;">📐</div>
+          <div style="font-weight:600;font-size:var(--small-size);">弹性布局</div>
+          <div style="font-size:10px;color:var(--label-tertiary);margin-top:4px;">Grid 自适应<br>容器百分比<br>表单堆叠</div>
+        </div>
+      </div>
+      <div style="margin-top:clamp(10px,2vh,16px);text-align:center;">
+        <p style="font-size:var(--small-size);color:var(--label-tertiary);">桌面端三栏 → 窄屏单栏 → 移动端触控优化</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 24 — 技术栈总结
+     ============================================ -->
+<section class="slide">
+  <div class="slide-content">
+    <div class="slide-header reveal">
+      <span class="accent-chip">技术架构</span>
+      <h2>技术栈全景图</h2>
+    </div>
+    <div class="tech-list reveal">
+      <div class="tech-item">
+        <div class="tech-icon">🌐</div>
+        <div><div class="tech-name">纯 HTML/CSS/JS</div><div class="tech-desc">零框架依赖，单文件即用</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎨</div>
+        <div><div class="tech-name">CSS Grid + 自定义属性</div><div class="tech-desc">三栏可拖拽 + 玻璃材质令牌</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">💾</div>
+        <div><div class="tech-name">localStorage</div><div class="tech-desc">JSON 结构化业务数据</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🗄️</div>
+        <div><div class="tech-name">IndexedDB</div><div class="tech-desc">大文件 + 配置键值存储</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🤖</div>
+        <div><div class="tech-name">OpenAI 兼容 API</div><div class="tech-desc">DeepSeek / GLM / SiliconFlow</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📄</div>
+        <div><div class="tech-name">纯前端文档解析</div><div class="tech-desc">Word / PDF 浏览器内预览</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎭</div>
+        <div><div class="tech-name">Glass Morphism</div><div class="tech-desc">backdrop-filter 多层次材质</div></div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📱</div>
+        <div><div class="tech-name">响应式布局</div><div class="tech-desc">桌面 + 平板 + 手机三端适配</div></div>
+      </div>
+    </div>
+    <p class="reveal" style="text-align:center;margin-top:clamp(12px,2vh,20px);font-size:var(--small-size);color:var(--label-tertiary);">
+      539 KB · 12698 行代码 · 单文件自包含 · 开箱即用
+    </p>
+  </div>
+</section>
+
+<!-- ============================================
+     SLIDE 25 — Thank You
+     ============================================ -->
+<section class="slide thank-you-slide">
+  <div class="slide-content" style="align-items:center;">
+    <div class="reveal">
+      <div class="thank-you-icon">📋</div>
+    </div>
+    <h1 class="title-main reveal">WenXiBuddy</h1>
+    <p class="title-sub reveal">机关办公全能助手 · 持续迭代中</p>
+    <div class="reveal" style="margin-top:clamp(20px,4vh,40px);">
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <div class="glass-card thin" style="padding:12px 24px;">📋 任务管理</div>
+        <div class="glass-card thin" style="padding:12px 24px;">📝 周报生成</div>
+        <div class="glass-card thin" style="padding:12px 24px;">🤖 AI 加持</div>
+        <div class="glass-card thin" style="padding:12px 24px;">🎨 visionOS</div>
+      </div>
+    </div>
+    <p class="title-tagline reveal">v07.22 · 纯前端 · 本地存储 · 零依赖</p>
+  </div>
+</section>
+
+<script>
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   =========================================== */
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.totalSlides = this.slides.length;
+    this.currentSlide = 0;
+    this.progressBar = document.getElementById('progressBar');
+    this.navDots = document.getElementById('navDots');
+
+    this.setupIntersectionObserver();
+    this.setupKeyboardNav();
+    this.setupWheelNav();
+    this.setupTouchNav();
+    this.setupNavDots();
+    this.updateProgress();
+  }
+
+  setupIntersectionObserver() {
+    const options = { root: null, threshold: 0.4 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const idx = Array.from(this.slides).indexOf(entry.target);
+          if (idx >= 0) {
+            this.currentSlide = idx;
+            this.updateProgress();
+            this.updateNavDots();
+          }
+        }
+      });
+    }, options);
+    this.slides.forEach(slide => observer.observe(slide));
+  }
+
+  setupKeyboardNav() {
+    document.addEventListener('keydown', (e) => {
+      if (e.target.getAttribute('contenteditable')) return;
+      switch (e.key) {
+        case 'ArrowDown': case 'ArrowRight': case ' ':
+          e.preventDefault();
+          this.goTo(this.currentSlide + 1);
+          break;
+        case 'ArrowUp': case 'ArrowLeft':
+          e.preventDefault();
+          this.goTo(this.currentSlide - 1);
+          break;
+        case 'Home':
+          e.preventDefault();
+          this.goTo(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          this.goTo(this.totalSlides - 1);
+          break;
+      }
+    });
+  }
+
+  setupWheelNav() {
+    let wheelTimeout;
+    document.addEventListener('wheel', (e) => {
+      if (wheelTimeout) return;
+      wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 800);
+      if (e.deltaY > 30) this.goTo(this.currentSlide + 1);
+      else if (e.deltaY < -30) this.goTo(this.currentSlide - 1);
+    }, { passive: true });
+  }
+
+  setupTouchNav() {
+    let touchStartY = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const diff = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) this.goTo(this.currentSlide + 1);
+        else this.goTo(this.currentSlide - 1);
+      }
+    });
+  }
+
+  goTo(index) {
+    const target = Math.max(0, Math.min(index, this.totalSlides - 1));
+    if (target === this.currentSlide) return;
+    this.slides[target].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  updateProgress() {
+    const pct = ((this.currentSlide + 1) / this.totalSlides) * 100;
+    this.progressBar.style.width = pct + '%';
+  }
+
+  setupNavDots() {
+    this.navDots.innerHTML = '';
+    for (let i = 0; i < this.totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'nav-dot';
+      dot.title = 'Slide ' + (i + 1);
+      dot.addEventListener('click', () => this.goTo(i));
+      this.navDots.appendChild(dot);
+    }
+  }
+
+  updateNavDots() {
+    const dots = this.navDots.querySelectorAll('.nav-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === this.currentSlide);
+    });
+  }
+}
+
+new SlidePresentation();
+</script>
+</body>
+</html>
